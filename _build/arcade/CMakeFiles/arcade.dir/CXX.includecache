@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../arcade_core/include/arcade.hpp
+
+/home/quentin/S3/Object_Oriented/B-OOP-400-PAR-4-1-arcade-alexis.thomas/arcade_core/src/main.cpp
+arcade.hpp
+/home/quentin/S3/Object_Oriented/B-OOP-400-PAR-4-1-arcade-alexis.thomas/arcade_core/src/arcade.hpp
+
