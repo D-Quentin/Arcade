@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -shared -Wl,-soname,libpacman.so -o libpacman.so CMakeFiles/pacman.dir/home/quentin/S3/Object_Oriented/B-OOP-400-PAR-4-1-arcade-alexis.thomas/games/pacman/src/main.cpp.o 
