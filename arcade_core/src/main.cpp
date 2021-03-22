@@ -25,7 +25,6 @@ IGraphicLib *open_lib(char *lib_name)
     lib = pMaker();
     return (lib);
 }
-
 int main(int ac, char **av)
 {
     IGraphicLib *lib = NULL;
@@ -34,6 +33,5 @@ int main(int ac, char **av)
     lib = open_lib(av[1]);
     if (lib == NULL)
         return (84);
-    
     return (0);
 }

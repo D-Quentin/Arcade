@@ -13,6 +13,7 @@
 #include "IGraphicLib.hpp"
 #include <vector>
 #include <dirent.h>
+#include <string.h>
 
 class Arcade
 {
