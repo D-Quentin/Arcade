@@ -5,6 +5,8 @@ set(PROJ "arcade")
 project(${PROJ})
 
 include_directories(../../arcade_core/include)
+include_directories(../../interface)
+
 
 file(
     GLOB
@@ -12,5 +14,6 @@ file(
     ../../arcade_core/src/*.cpp
     ../../arcade_core/src/*/*.cpp
 )
+set (CMAKE_CXX_FLAGS "-ldl")
 add_executable(${PROJ} ${SRCS})
-target_compile_options(${PROJ} PRIVATE -Wall -Wextra)
+target_compile_options(${PROJ} PRIVATE -Wall -Wextra )

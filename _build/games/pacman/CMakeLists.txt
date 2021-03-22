@@ -5,6 +5,8 @@ set(PROJ "pacman")
 project(${PROJ})
 
 include_directories(../../../games/${PROJ}/include)
+include_directories(../../../arcade_core/include)
+include_directories(../../../interface)
 
 file(
     GLOB

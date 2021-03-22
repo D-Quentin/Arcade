@@ -5,6 +5,7 @@ set(PROJ "sdl2")
 project(${PROJ})
 
 include_directories(../../../graphics_libraries/${PROJ}/include)
+include_directories(../../../interface)
 
 file(
     GLOB

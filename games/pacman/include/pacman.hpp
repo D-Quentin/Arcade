@@ -8,6 +8,8 @@
 #ifndef PACMAN_HPP_
 #define PACMAN_HPP_
 
-int setup_game();
+#include <iostream>
+
+
 
 #endif /* !PACMAN_HPP_ */

@@ -5,7 +5,5 @@
 ** main
 */
 
-int setup_game()
-{
-    return (0);
-}
+#include "pacman.hpp"
+

@@ -8,6 +8,15 @@
 #ifndef NCURSES_HPP_
 #define NCURSES_HPP_
 
-int setup();
+#include "IGraphicLib.hpp"
+#include <iostream>
+
+class GraphicLib : public IGraphicLib
+{
+    public:
+        virtual int test(int i);
+    protected:
+    private:
+};
 
 #endif /* !NCURSES_HPP_ */
