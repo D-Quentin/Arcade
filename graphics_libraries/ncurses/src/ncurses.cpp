@@ -15,6 +15,16 @@ extern "C"
     }
 }
 
+void GraphicLib::init_lib()
+{
+
+}
+
+void GraphicLib::exit_lib()
+{
+
+}
+
 int GraphicLib::test(int i)
 {
     std::cout << i << std::endl;

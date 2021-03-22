@@ -15,6 +15,8 @@ class GraphicLib : public IGraphicLib
 {
     public:
         virtual int test(int i);
+        virtual void init_lib();
+        virtual void exit_lib();
     protected:
     private:
 };
