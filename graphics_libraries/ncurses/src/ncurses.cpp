@@ -24,10 +24,3 @@ void GraphicLib::exit_lib()
 {
 
 }
-
-int GraphicLib::test(int i)
-{
-    std::cout << i << std::endl;
-    i++;
-    return (i);
-}
