@@ -14,6 +14,8 @@
 #include <vector>
 #include <dirent.h>
 #include <string.h>
+#include <fstream>
+#include <chrono>
 
 class Arcade
 {
@@ -21,8 +23,10 @@ public:
     Arcade();
     ~Arcade();
 
-    std::vector<std::string> get_libs_name();
-    std::vector<std::string> get_games_name();
+    void get_shared_libs();
+    void launch_menu(IGraphicLib *glib);
+    std::vector<std::string> load_map(std::string path);
+    void gest_input(IGraphicLib *glib);
 
 private:
     std::vector<std::string> games;

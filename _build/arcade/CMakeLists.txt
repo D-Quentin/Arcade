@@ -7,7 +7,6 @@ project(${PROJ})
 include_directories(../../arcade_core/include)
 include_directories(../../interface)
 
-
 file(
     GLOB
     SRCS

@@ -8,10 +8,26 @@
 #ifndef IGraphicLib_HPP_
 #define IGraphicLib_HPP_
 
+#include <map>
+#include <vector>
+#include <list>
+#include <iostream>
+
 class IGraphicLib {
     public:
-        virtual ~IGraphicLib() = default;
+        virtual ~IGraphicLib() {};
         virtual void init_lib() = 0;
+        virtual void clearWindow() = 0;
+        virtual void printWindow() = 0;
+        virtual int keyPressed() const = 0;
+        virtual void refreshWindow() = 0;
+        virtual void printTitle(std::string) = 0;
+        virtual void assetLoader(const std::string) = 0;
+        virtual void printMap(std::vector<std::string>) = 0;
+        virtual void printText(int x, int y, std::string) = 0;
+        virtual std::pair<int, int> getWindowSize() const = 0;
+        virtual void printButton(int x, int y, std::string) = 0;
+        virtual void printSelectedButton(int x, int y, std::string) = 0;
         virtual void exit_lib() = 0;
 
     protected:

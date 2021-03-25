@@ -33,5 +33,9 @@ int main(int ac, char **av)
     lib = open_lib(av[1]);
     if (lib == NULL)
         return (84);
+    lib->assetLoader("assets/arcade");
+    Arcade arcade;
+    lib->init_lib();
+    arcade.launch_menu(lib);
     return (0);
 }

@@ -13,10 +13,14 @@
 class IGame {
     public:
         virtual ~IGame() = default;
-        virtual void launchGame(IGraphicLib *lib) const = 0;
+        virtual void launchMenu(IGraphicLib *glib) = 0;
+        virtual void launchGame(IGraphicLib *glib) = 0;
+        virtual void gameLoop(IGraphicLib *glib) = 0;
 
     protected:
     private:
 };
+
+typedef IGame *(*MakerGame)();
 
 #endif /* !IGAME_HPP_ */
