@@ -10,6 +10,7 @@
 
 #include "IGraphicLib.hpp"
 #include <iostream>
+#include <cstring>
 #include <locale.h>
 #define NCURSES_WIDECHAR 1
 #include <ncursesw/curses.h>

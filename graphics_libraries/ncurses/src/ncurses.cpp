@@ -41,7 +41,7 @@ int GraphicLib::keyPressed() const
 
 void GraphicLib::printMap(std::vector<std::string> map)
 {
-    int y = 0;
+    size_t y = 0;
 
     while (map.size() != y) {
         mvprintw(y, 0, map[y].c_str());
@@ -50,19 +50,37 @@ void GraphicLib::printMap(std::vector<std::string> map)
 
 }
 
+size_t strlen_emoji(const std::string& str)
+{
+    size_t length = 0;
+    size_t tmp = 0;
+    size_t emoji = 0;
+
+    for (char c : str) {
+        if ((c & 0xC0) != 0x80 || tmp % 2 == 0) {
+            length++;
+            tmp++;
+        }
+        if ((c & 0xC0) == 0x80)
+            emoji = 1;
+
+    }
+    return (length + emoji);
+}
+
 void GraphicLib::printButton(int x, int y, std::string name)
 {
     std::string line1 = "┏";
-    std::string line2 = "┃";
+    std::string line2 = "┃ ";
     std::string line3 = "┗";
 
-    for (int i = 0 ; i != name.size() ; i++) {
+    for (size_t i = 0 ; i != strlen_emoji(name) + 2 ; i++) {
         line1 += "━";
         line3 += "━";
     }
     line2 += name;
     line1 += "┓";
-    line2 += "┃";
+    line2 += " ┃";
     line3 += "┛";
     mvprintw(y, x, line1.c_str());
     mvprintw(y + 1, x, line2.c_str());
@@ -71,18 +89,18 @@ void GraphicLib::printButton(int x, int y, std::string name)
 
 void GraphicLib::printSelectedButton(int x, int y, std::string name)
 {
-    std::string line1 = "┏";
-    std::string line2 = "┋";
-    std::string line3 = "┗";
+    std::string line1 = "┌";
+    std::string line2 = "┆ ";
+    std::string line3 = "└";
 
-    for (int i = 0 ; i != name.size() ; i++) {
-        line1 += "╍";
-        line3 += "╍";
+    for (size_t i = 0 ; i != strlen_emoji(name) + 2 ; i++) {
+        line1 += "╌";
+        line3 += "╌";
     }
     line2 += name;
-    line1 += "┓";
-    line2 += "┋";
-    line3 += "┛";
+    line1 += "┐";
+    line2 += " ┆";
+    line3 += "┘";
     mvprintw(y, x, line1.c_str());
     mvprintw(y + 1, x, line2.c_str());
     mvprintw(y + 2, x, line3.c_str());
