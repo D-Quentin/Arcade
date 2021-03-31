@@ -5,8 +5,8 @@
 ** centipede
 */
 
-#ifndef CENTIPEDE_HPP_
-#define CENTIPEDE_HPP_
+#ifndef NIBBLER_HPP_
+#define NIBBLER_HPP_
 
 #include <iostream>
 #include "IGame.hpp"
@@ -24,4 +24,4 @@ public:
     virtual void gameLoop(IGraphicLib *glib);
 };
 
-#endif /* !CENTIPEDE_HPP_ */
+#endif /* !NIBBLER_HPP_ */

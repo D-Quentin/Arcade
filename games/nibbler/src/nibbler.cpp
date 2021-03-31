@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "centipede.hpp"
+#include "nibbler.hpp"
 
 extern "C"
 {

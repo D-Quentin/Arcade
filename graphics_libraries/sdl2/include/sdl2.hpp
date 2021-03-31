@@ -15,6 +15,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_timer.h>
 #include <locale.h>
+#include <dirent.h>
 
 class sdl2Lib : public IGraphicLib
 {
@@ -36,7 +37,8 @@ protected:
 private:
     SDL_Window* win;
     SDL_Renderer *renderer;
-    std::map<std::string, std::vector<std::string>> _maps;
+    std::string font;
+    std::map<std::string, SDL_Surface *> sprite;
 };
 
 #endif /* !SLD2_HPP_ */

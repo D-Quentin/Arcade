@@ -44,14 +44,6 @@ void Arcade::get_shared_libs()
                 this->games.push_back(shared_libs[i]);
         }
     }
-    std::cout << "Libs :" << std::endl;
-    for (size_t i = 0 ; i != this->libs.size() ; i++) {
-        std::cout << this->libs[i] << std::endl;
-    }
-    std::cout << "Games :" << std::endl;
-    for (size_t i = 0 ; i != this->games.size() ; i++) {
-        std::cout << this->games[i] << std::endl;
-    }
 }
 
 void Arcade::launch_menu(IGraphicLib *glib)
@@ -66,6 +58,8 @@ void Arcade::launch_menu(IGraphicLib *glib)
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - start).count() > 100000000) {
             glib->printMap(map_menu);
             this->print_bouton(glib);
+            glib->printText(44, 1, "🎮 Arcade 🎮");
+            this->print_leaderboard(glib);
             start = std::chrono::high_resolution_clock::now();
         }
         this->gest_name(input);
@@ -188,20 +182,20 @@ void Arcade::print_bouton(IGraphicLib *glib)
 {
     for (size_t i = 0 ; i != this->bouton[0].size() ; i++) {
         if (this->bouton[0][i].first == 1)
-            glib->printSelectedButton(3, 4 + i * 4, this->bouton[0][i].second);
+            glib->printSelectedButton(7.5 - this->bouton[0][i].second.size() / 2 , 5 + i * 4, this->bouton[0][i].second);
         else
-            glib->printButton(3, 4 + i * 4, this->bouton[0][i].second);
+            glib->printButton(7.5 - this->bouton[0][i].second.size() / 2 , 5 + i * 4, this->bouton[0][i].second);
     }
     for (size_t i = 0 ; i != this->bouton[1].size() ; i++) {
         if (this->bouton[1][i].first == 1)
-            glib->printSelectedButton(17, 4 + i * 4, this->bouton[1][i].second);
+            glib->printSelectedButton(29.5 - this->bouton[1][i].second.size() / 2, 5 + i * 4, this->bouton[1][i].second);
         else
-            glib->printButton(17, 4 + i * 4, this->bouton[1][i].second);
+            glib->printButton(29.5 - this->bouton[1][i].second.size() / 2, 5 + i * 4, this->bouton[1][i].second);
     }
     if (this->bouton[2][0].first == 1)
-            glib->printSelectedButton(31, 4, this->bouton[2][0].second);
+            glib->printSelectedButton(37, 19, this->bouton[2][0].second);
     else
-        glib->printButton(31, 4, this->bouton[2][0].second);
+        glib->printButton(37, 19, this->bouton[2][0].second);
 }
 
 std::string Arcade::get_logo(std::string name)
@@ -240,9 +234,66 @@ void Arcade::init_bouton()
         game.push_back(tmp);
     }
     tmp.first = 0;
-    tmp.second = "Your name:           ";
+    tmp.second = "Your name:            ";
     name.push_back(tmp);
     this->bouton.push_back(lib);
     this->bouton.push_back(game);
     this->bouton.push_back(name);
+}
+
+void Arcade::print_leaderboard(IGraphicLib *glib)
+{
+    char c;
+    std::string line = "";
+    std::string name1 = "";
+    std::string name2 = "";
+    std::string name3 = "";
+    std::string score1 = "";
+    std::string score2 = "";
+    std::string score3 = "";
+
+    for (size_t i = 0 ; i != this->games.size() ; i++) {
+        std::ifstream file("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11) + "/leaderboard");
+        if (file) {
+            while (file.get(c)) {
+                if (c == '|') {
+                    if (name1 == "")
+                        name1 = line;
+                    else if (name2 == "")
+                        name2 = line;
+                    else
+                        name3 = line;
+                    line = "";
+                    continue;
+                }
+                if (c == '\n') {
+                    if (score1 == "")
+                        score1 = line;
+                    else if (score2 == "")
+                        score2 = line;
+                    else
+                        score3 = line;
+                    line = "";
+                    continue;
+                }
+                line += c;
+            }
+            line = "";
+        }
+        glib->printText(49, 5 + i * 4, "🥇");
+        glib->printText(67, 5 + i * 4, "🥈");
+        glib->printText(85, 5 + i * 4, "🥉");
+        glib->printText(50 - name1.size() / 2, 6 + i * 4, name1);
+        glib->printText(68 - name2.size() / 2, 6 + i * 4, name2);
+        glib->printText(86 - name3.size() / 2, 6 + i * 4, name3);
+        glib->printText(50 - score1.size() / 2, 7 + i * 4, score1);
+        glib->printText(68 - score2.size() / 2, 7 + i * 4, score2);
+        glib->printText(86 - score3.size() / 2, 7 + i * 4, score3);
+        name1 = "";
+        name2 = "";
+        name3 = "";
+        score1 = "";
+        score2 = "";
+        score3 = "";
+    }
 }

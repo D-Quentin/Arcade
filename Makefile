@@ -17,10 +17,10 @@ core:
 		cp _build/arcade/arcade .
 
 games:
-		rm -f lib/arcade_centipede.so
-		cd _build/games/centipede && cmake .
-		cd _build/games/centipede && make
-		cp _build/games/centipede/libcentipede.so lib/arcade_centipede.so
+		rm -f lib/arcade_nibbler.so
+		cd _build/games/nibbler && cmake .
+		cd _build/games/nibbler && make
+		cp _build/games/nibbler/libnibbler.so lib/arcade_nibbler.so
 
 		rm -f lib/arcade_pacman.so
 		cd _build/games/pacman && cmake .
@@ -47,8 +47,8 @@ clean:
 		rm -f _build/arcade/arcade
 		rm -f _build/arcade/Makefile
 
-		rm -f _build/games/centipede/libcentipede.so
-		rm -f _build/games/centipede/Makefile
+		rm -f _build/games/nibbler/libnibbler.so
+		rm -f _build/games/nibbler/Makefile
 
 		rm -f _build/games/pacman/libpacman.so
 		rm -f _build/games/pacman/Makefile
@@ -69,10 +69,10 @@ fclean: clean
 		rm -f _build/arcade/CMakeCache.txt
 		rm -f _build/arcade/cmake_install.cmake
 
-		rm -f lib/arcade_centipede.so
-		rm -rf _build/games/centipede/CMakeFiles
-		rm -f _build/games/centipede/CMakeCache.txt
-		rm -f _build/games/centipede/cmake_install.cmake
+		rm -f lib/arcade_nibbler.so
+		rm -rf _build/games/nibbler/CMakeFiles
+		rm -f _build/games/nibbler/CMakeCache.txt
+		rm -f _build/games/nibbler/cmake_install.cmake
 
 		rm -f lib/arcade_pacman.so
 		rm -rf _build/games/pacman/CMakeFiles

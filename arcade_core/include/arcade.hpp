@@ -35,6 +35,7 @@ public:
     void gest_input(IGraphicLib *glib, int input);
     void gest_bouton(int input);
     void print_bouton(IGraphicLib *glib);
+    void print_leaderboard(IGraphicLib *glib);
     void init_bouton();
     std::string get_logo(std::string name);
     void gest_name(int input);

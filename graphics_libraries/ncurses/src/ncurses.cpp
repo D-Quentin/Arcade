@@ -50,44 +50,49 @@ void GraphicLib::printMap(std::vector<std::string> map)
 
 }
 
+int str_in_str(std::string str, std::string str2)
+{
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    int result = 0;
+
+    while (a != str.size()) {
+        if (str[a] == str2[0]) {
+            b = 0;
+            c = a;
+            while (b != str2.size()) {
+                if (str[c] != str2[b])
+                    b = str2.size();
+                else {
+                    c++;
+                    b++;
+                    if (b == str2.size())
+                        result++;
+                }
+            }
+        }
+        a++;
+    }
+    return result;
+}
+
 size_t strlen_emoji(const std::string& str)
 {
     size_t length = 0;
-    size_t tmp = 0;
     size_t emoji = 0;
 
-    for (char c : str) {
-        if ((c & 0xC0) != 0x80 || tmp % 2 == 0) {
+    for (size_t i = 0 ; i != str.length() ; i++) {
+        if ((str[i] & 0xC0) != 0x80) {
             length++;
-            tmp++;
         }
-        if ((c & 0xC0) == 0x80)
-            emoji = 1;
-
     }
+    emoji += str_in_str(str, "🐍");
+    emoji += str_in_str(str, "👻");
     return (length + emoji);
 }
 
 void GraphicLib::printButton(int x, int y, std::string name)
-{
-    std::string line1 = "┏";
-    std::string line2 = "┃ ";
-    std::string line3 = "┗";
-
-    for (size_t i = 0 ; i != strlen_emoji(name) + 2 ; i++) {
-        line1 += "━";
-        line3 += "━";
-    }
-    line2 += name;
-    line1 += "┓";
-    line2 += " ┃";
-    line3 += "┛";
-    mvprintw(y, x, line1.c_str());
-    mvprintw(y + 1, x, line2.c_str());
-    mvprintw(y + 2, x, line3.c_str());
-}
-
-void GraphicLib::printSelectedButton(int x, int y, std::string name)
 {
     std::string line1 = "┌";
     std::string line2 = "┆ ";
@@ -106,9 +111,28 @@ void GraphicLib::printSelectedButton(int x, int y, std::string name)
     mvprintw(y + 2, x, line3.c_str());
 }
 
-void GraphicLib::printText(int x, int y, std::string)
+void GraphicLib::printSelectedButton(int x, int y, std::string name)
 {
+    std::string line1 = "┏";
+    std::string line2 = "┃ ";
+    std::string line3 = "┗";
 
+    for (size_t i = 0 ; i != strlen_emoji(name) + 2 ; i++) {
+        line1 += "━";
+        line3 += "━";
+    }
+    line2 += name;
+    line1 += "┓";
+    line2 += " ┃";
+    line3 += "┛";
+    mvprintw(y, x, line1.c_str());
+    mvprintw(y + 1, x, line2.c_str());
+    mvprintw(y + 2, x, line3.c_str());
+}
+
+void GraphicLib::printText(int x, int y, std::string str)
+{
+    mvprintw(y, x, str.c_str());
 }
 
 void GraphicLib::clearWindow()
