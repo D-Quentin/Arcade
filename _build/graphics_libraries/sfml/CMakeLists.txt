@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(PROJ "opengl")
+set(PROJ "sfml")
 
 project(${PROJ})
 

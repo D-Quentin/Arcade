@@ -39,6 +39,8 @@ private:
     SDL_Renderer *renderer;
     std::string font;
     std::map<std::string, SDL_Surface *> sprite;
+    std::map<std::string, SDL_Surface *> text;
+    int block_size;
 };
 
 #endif /* !SLD2_HPP_ */

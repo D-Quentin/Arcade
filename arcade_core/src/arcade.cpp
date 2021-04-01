@@ -57,13 +57,16 @@ void Arcade::launch_menu(IGraphicLib *glib)
         input = glib->keyPressed();
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - start).count() > 100000000) {
             glib->printMap(map_menu);
-            this->print_bouton(glib);
+            //this->print_bouton(glib);
             glib->printText(44, 1, "🎮 Arcade 🎮");
+            glib->printText(2, 3, "💻 Librairies 💻");
+            glib->printText(24, 3, "👾 Games 👾");
+            glib->printText(61, 3, "🏆 Leaderboard 🏆");
             this->print_leaderboard(glib);
             start = std::chrono::high_resolution_clock::now();
         }
         this->gest_name(input);
-        this->gest_bouton(input);
+        //this->gest_bouton(input);
         this->gest_input(glib, input);
     }
 }
@@ -74,8 +77,8 @@ void Arcade::gest_input(IGraphicLib *glib, int input)
         glib->exit_lib();
         std::exit(0);
     }
-    if (input != -1)
-        glib->printButton(100, 2, std::to_string(input));
+    // if (input != -1)
+        // glib->printButton(100, 2, std::to_string(input));
 }
 
 std::vector<std::string> Arcade::load_map(std::string path)

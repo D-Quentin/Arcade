@@ -33,10 +33,10 @@ graphicals:
 		cd _build/graphics_libraries/ncurses && make
 		cp _build/graphics_libraries/ncurses/libncurses.so lib/arcade_ncurses.so
 
-		rm -f lib/arcade_opengl.so
-		cd _build/graphics_libraries/opengl && cmake .
-		cd _build/graphics_libraries/opengl && make
-		cp _build/graphics_libraries/opengl/libopengl.so lib/arcade_opengl.so
+		rm -f lib/arcade_sfml.so
+		cd _build/graphics_libraries/sfml && cmake .
+		cd _build/graphics_libraries/sfml && make
+		cp _build/graphics_libraries/sfml/libsfml.so lib/arcade_sfml.so
 
 		rm -f lib/arcade_sdl2.so
 		cd _build/graphics_libraries/sdl2 && cmake .
@@ -56,8 +56,8 @@ clean:
 		rm -f _build/graphics_libraries/ncurses/libncurses.so
 		rm -f _build/graphics_libraries/ncurses/Makefile
 
-		rm -f _build/graphics_libraries/opengl/libopengl.so
-		rm -f _build/graphics_libraries/opengl/Makefile
+		rm -f _build/graphics_libraries/sfml/libsfml.so
+		rm -f _build/graphics_libraries/sfml/Makefile
 
 		rm -f _build/graphics_libraries/sdl2/libsdl2.so
 		rm -f _build/graphics_libraries/sdl2/Makefile
@@ -84,10 +84,10 @@ fclean: clean
 		rm -f _build/graphics_libraries/ncurses/CMakeCache.txt
 		rm -f _build/graphics_libraries/ncurses/cmake_install.cmake
 
-		rm -f lib/arcade_opengl.so
-		rm -rf _build/graphics_libraries/opengl/CMakeFiles
-		rm -f _build/graphics_libraries/opengl/CMakeCache.txt
-		rm -f _build/graphics_libraries/opengl/cmake_install.cmake
+		rm -f lib/arcade_sfml.so
+		rm -rf _build/graphics_libraries/sfml/CMakeFiles
+		rm -f _build/graphics_libraries/sfml/CMakeCache.txt
+		rm -f _build/graphics_libraries/sfml/cmake_install.cmake
 
 		rm -f lib/arcade_sdl2.so
 		rm -rf _build/graphics_libraries/sdl2/CMakeFiles
