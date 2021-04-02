@@ -16,6 +16,8 @@
 #include <SDL2/SDL_timer.h>
 #include <locale.h>
 #include <dirent.h>
+#include <fstream>
+#include <chrono>
 
 class sdl2Lib : public IGraphicLib
 {
@@ -33,6 +35,9 @@ public:
     virtual void printTitle(std::string);
     virtual std::pair<int, int> getWindowSize() const;
     virtual void assetLoader(const std::string);
+    std::string clean_emoji(std::string str);
+    void printOneSprite(int x, int y, SDL_Surface *surface);
+    void reset_time();
 protected:
 private:
     SDL_Window* win;
@@ -40,6 +45,9 @@ private:
     std::string font;
     std::map<std::string, SDL_Surface *> sprite;
     std::map<std::string, SDL_Surface *> text;
+    std::map<std::string, SDL_Surface *> bouton_sprite;
+    std::map<std::string, std::string> emoji;
+    std::chrono::_V2::system_clock::time_point input_time;
     int block_size;
 };
 

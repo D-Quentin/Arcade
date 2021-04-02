@@ -49,24 +49,29 @@ void Arcade::get_shared_libs()
 void Arcade::launch_menu(IGraphicLib *glib)
 {
     std::vector<std::string> map_menu = this->load_map("assets/arcade/maps/menu.txt");
-    auto start = std::chrono::high_resolution_clock::now();
+    auto refresh = std::chrono::high_resolution_clock::now();
     int input = -1;
 
     this->init_bouton();
     while (1) {
         input = glib->keyPressed();
-        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - start).count() > 100000000) {
+        // input = -1;
+        // if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - input_time).count() > 100000000) {
+        //     input = glib->keyPressed();
+        //     input_time = std::chrono::high_resolution_clock::now();
+        // }
+        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 100000000) {
             glib->printMap(map_menu);
-            //this->print_bouton(glib);
+            this->print_bouton(glib);
             glib->printText(44, 1, "🎮 Arcade 🎮");
             glib->printText(2, 3, "💻 Librairies 💻");
             glib->printText(24, 3, "👾 Games 👾");
             glib->printText(61, 3, "🏆 Leaderboard 🏆");
             this->print_leaderboard(glib);
-            start = std::chrono::high_resolution_clock::now();
+            refresh = std::chrono::high_resolution_clock::now();
         }
         this->gest_name(input);
-        //this->gest_bouton(input);
+        this->gest_bouton(input);
         this->gest_input(glib, input);
     }
 }
@@ -77,8 +82,8 @@ void Arcade::gest_input(IGraphicLib *glib, int input)
         glib->exit_lib();
         std::exit(0);
     }
-    // if (input != -1)
-        // glib->printButton(100, 2, std::to_string(input));
+    if (input != -1)
+        glib->printButton(100, 2, std::to_string(input));
 }
 
 std::vector<std::string> Arcade::load_map(std::string path)

@@ -22,6 +22,7 @@ void sdl2Lib::init_lib()
     this->win = SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_FULLSCREEN);
     this->renderer = SDL_CreateRenderer(this->win, -1, 0);
     this->block_size = 16;
+    this->input_time = std::chrono::high_resolution_clock::now();
 }
 
 void sdl2Lib::exit_lib()
@@ -37,17 +38,20 @@ int sdl2Lib::keyPressed() const
     while (SDL_PollEvent(&event)) {
         switch (event.key.keysym.scancode) {
         case 82:
-            return 403;
+            return 259;
         case 79:
-            return 405;
+            return 261;
         case 81:
-            return 402;
+            return 258;
         case 80:
-            return 404;                                                                                                                                        
+            return 260;
+        case 'l':
+            return 261;
         default:
             return event.key.keysym.scancode;
-            }
         }
+    }
+    return (-1);
 }
 
 std::string str_replace_str(std::string str, std::string str2, std::string str3)
@@ -99,15 +103,19 @@ void sdl2Lib::printMap(std::vector<std::string> vs)
 
     for (int i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-            tmp2 = str_replace_str(vs[i], m->first, spe_char);
+            vs[i] = str_replace_str(vs[i], m->first, spe_char);
+            spe_char[0]++;
+        }
+        spe_char = "0";
+        for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
             // std::cout << "Char : " << m->first << std::endl;
             // std::cout << "Replace char : " << spe_char << std::endl;
             // std::cout << "Avant : " << vs[i];
             // std::cout << "Après : " << tmp2;
             // std::cout << "Path tex : " << m->second << std::endl;
 
-            for (int h = 0 ; h != tmp2.size() ; h++, tmp = "") {
-                if (tmp2[h] == spe_char[0]) {
+            for (int h = 0 ; h != vs[i].size() ; h++, tmp = "") {
+                if (vs[i][h] == spe_char[0]) {
                     tmp += m->first;
                     dstrect = {x, y, this->block_size, this->block_size};
                     tex = SDL_CreateTextureFromSurface(renderer, m->second);
@@ -142,40 +150,121 @@ std::string begin_str(std::string str, char a)
     return str2;
 }
 
-void sdl2Lib::printButton(int x, int y, std::string text)
+int str_in_str(std::string str, std::string str2)
 {
-    printText(x, y, text);
-    SDL_Surface *image = IMG_Load("cadre_gauche.png");
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
-    SDL_Rect dstrect = {x - 10, y - 10, 10, 40};
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-    image = IMG_Load("cadre_milieu.png");
-    texture = SDL_CreateTextureFromSurface(renderer, image);
-    dstrect = {x, y - 10, (int)text.size() * 2, 40};
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-    image = IMG_Load("cadre_droite.png");
-    texture = SDL_CreateTextureFromSurface(renderer, image);
-    dstrect = {(int)text.size() * 2, y - 10, 10, 40};
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-    SDL_RenderPresent(renderer);
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    int result = 0;
+
+    while (a != str.size()) {
+        if (str[a] == str2[0]) {
+            b = 0;
+            c = a;
+            while (b != str2.size()) {
+                if (str[c] != str2[b])
+                    b = str2.size();
+                else {
+                    c++;
+                    b++;
+                    if (b == str2.size())
+                        result++;
+                }
+            }
+        }
+        a++;
+    }
+    return result;
 }
 
-void sdl2Lib::printSelectedButton(int x, int y, std::string)
+size_t strlen_emoji(const std::string& str)
 {
+    size_t length = 0;
+    size_t emoji = 0;
 
+    for (size_t i = 0 ; i != str.length() ; i++) {
+        if ((str[i] & 0xC0) != 0x80) {
+            length++;
+        }
+    }
+    emoji += str_in_str(str, "🐍");
+    emoji += str_in_str(str, "👻");
+    return (length + emoji);
+}
+
+void sdl2Lib::printOneSprite(int x, int y, SDL_Surface *surface)
+{
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(this->renderer, this->bouton_sprite["clear"]);
+    SDL_Rect dstrect = {x * this->block_size, y * this->block_size, this->block_size, this->block_size};
+    SDL_RenderCopy(this->renderer, texture, NULL, &dstrect);
+    SDL_DestroyTexture(texture);
+
+    texture = SDL_CreateTextureFromSurface(this->renderer, surface);
+    SDL_RenderCopy(this->renderer, texture, NULL, &dstrect);
+    SDL_DestroyTexture(texture);
+}
+
+void sdl2Lib::printSelectedButton(int x, int y, std::string text)
+{
+    size_t len = strlen_emoji(text);
+
+    this->printOneSprite(x, y, this->bouton_sprite["┏"]);
+    this->printOneSprite(x, y + 2, this->bouton_sprite["┗"]);
+    this->printOneSprite(x + (int)len + 3, y, this->bouton_sprite["┓"]);
+    this->printOneSprite(x + (int)len + 3, y + 2, this->bouton_sprite["┛"]);
+    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┇"]);
+    this->printOneSprite(x, y + 1, this->bouton_sprite["┇"]);
+
+    for (size_t i = 0 ; i != len + 2 ; i++) {
+        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["┅"]);
+        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["┅"]);
+    }
+    SDL_RenderPresent(renderer);
+    printText(x + 2, y + 1, text);
+}
+
+void sdl2Lib::printButton(int x, int y, std::string text)
+{
+    size_t len = strlen_emoji(text);
+
+    this->printOneSprite(x, y, this->bouton_sprite["┌"]);
+    this->printOneSprite(x, y + 2, this->bouton_sprite["└"]);
+    this->printOneSprite(x + (int)len + 3, y, this->bouton_sprite["┐"]);
+    this->printOneSprite(x + (int)len + 3, y + 2, this->bouton_sprite["┘"]);
+    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┆"]);
+    this->printOneSprite(x, y + 1, this->bouton_sprite["┆"]);
+
+    for (size_t i = 0 ; i != len + 2 ; i++) {
+        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["┄"]);
+        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["┄"]);
+    }
+    SDL_RenderPresent(renderer);
+    printText(x + 2, y + 1, text);
+}
+
+
+std::string sdl2Lib::clean_emoji(std::string str)
+{
+    for (auto m = this->emoji.begin() ; m != this->emoji.end() ; m++)
+        str = str_replace_str(str, m->first, m->second);
+    return str;
 }
 
 void sdl2Lib::printText(int x, int y, std::string string)
 {
     SDL_Color color = {255, 255, 255, 255};
     if (this->text.find(string) == this->text.end())
-        this->text[string] = TTF_RenderText_Solid(TTF_OpenFont(this->font.c_str(), this->block_size), string.c_str(), color);
-
+        this->text[string] = TTF_RenderText_Solid(TTF_OpenFont(this->font.c_str(), this->block_size + 2), clean_emoji(string).c_str(), color);
+    
+    SDL_Texture *tex_clear = SDL_CreateTextureFromSurface(this->renderer, this->bouton_sprite["clear"]);
+    SDL_Rect dstrect_clear = {x * this->block_size, y * this->block_size, this->block_size * clean_emoji(string).size(), this->block_size};
+    SDL_RenderCopy(this->renderer, tex_clear, NULL, &dstrect_clear);
+    SDL_DestroyTexture(tex_clear);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(this->renderer, this->text[string]);
     int a = 0;
     int b = 0;
     SDL_QueryTexture(texture, NULL, NULL, &a, &b);
-    SDL_Rect dstrect = {x * this->block_size, y * this->block_size, a, b};
+    SDL_Rect dstrect = {x * this->block_size, y * this->block_size - 3, a, b};
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
     SDL_DestroyTexture(texture);
     SDL_RenderPresent(renderer);
@@ -228,12 +317,49 @@ void sdl2Lib::assetLoader(const std::string str)
             if (strstr(ent->d_name, ".png") != NULL) {
                 tmp = str + "/sprites/" + ent->d_name;
                 tmp2 += begin_str(ent->d_name, '.');
-                sprite[tmp2] = IMG_Load(tmp.c_str());
+                this->sprite[tmp2] = IMG_Load(tmp.c_str());
             }
-            std::cout << tmp2 << std::endl;
             tmp = "";
             tmp2 = "";
         }
     }
     closedir(rep);
+    tex = "assets/sdl2/sprites";
+    rep = opendir(tex.c_str());
+    if (rep != NULL) {
+        struct dirent* ent;
+        tmp = "assets/sdl2/sprites/";
+        while((ent = readdir(rep)) != NULL) {
+            if (strstr(ent->d_name, ".png") != NULL) {
+                tmp += ent->d_name;
+                tmp2 += begin_str(ent->d_name, '.');
+                this->bouton_sprite[tmp2] = IMG_Load(tmp.c_str());
+            }
+            tmp = "assets/sdl2/sprites/";
+            tmp2 = "";
+        }
+    }
+    closedir(rep);
+
+    std::ifstream file(str + "/emoji");
+    tmp = "";
+    char c;
+    std::string line = "";
+
+    if (file) {
+        while (file.get(c)) {
+            if (c == '=') {
+                tmp += line;
+                line = "";
+                continue;
+            }
+            if (c == '\n') {
+                this->emoji[tmp] = line;
+                line = "";
+                tmp = "";
+                continue;
+            }
+            line += c;
+        }
+    }
 }
