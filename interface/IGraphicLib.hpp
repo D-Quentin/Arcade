@@ -19,7 +19,7 @@ class IGraphicLib {
         virtual void init_lib() = 0;
         virtual void clearWindow() = 0;
         virtual void printWindow() = 0;
-        virtual int keyPressed() const = 0;
+        virtual int keyPressed() = 0;
         virtual void refreshWindow() = 0;
         virtual void printTitle(std::string) = 0;
         virtual void assetLoader(const std::string) = 0;

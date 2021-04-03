@@ -32,24 +32,24 @@ void sdl2Lib::exit_lib()
     TTF_Quit();
 }
 
-int sdl2Lib::keyPressed() const
+int sdl2Lib::keyPressed()
 {
     SDL_Event event;
+    const Uint8 *keys = SDL_GetKeyboardState(NULL);
     while (SDL_PollEvent(&event)) {
-        switch (event.key.keysym.scancode) {
-        case 82:
-            return 259;
-        case 79:
-            return 261;
-        case 81:
+        if (keys[SDL_SCANCODE_BACKSPACE])
+            return 263;
+        if (keys[SDL_SCANCODE_DOWN])
             return 258;
-        case 80:
+        if (keys[SDL_SCANCODE_UP])
+            return 259;
+        if (keys[SDL_SCANCODE_LEFT])
             return 260;
-        case 'l':
+        if (keys[SDL_SCANCODE_RIGHT])
             return 261;
-        default:
+        if (event.key.keysym.scancode >= 'a' && event.key.keysym.scancode <= 'z')
             return event.key.keysym.scancode;
-        }
+        return -1;
     }
     return (-1);
 }

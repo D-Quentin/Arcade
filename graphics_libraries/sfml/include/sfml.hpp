@@ -22,7 +22,7 @@ class Smfl : public IGraphicLib
     public:
         virtual void init_lib();
         virtual void exit_lib();
-        virtual int keyPressed() const;
+        virtual int keyPressed();
         virtual void printMap(std::vector<std::string>);
         virtual void printButton(int x, int y, std::string);
         virtual void printSelectedButton(int x, int y, std::string);

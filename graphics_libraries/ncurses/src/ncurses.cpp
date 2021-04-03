@@ -32,7 +32,7 @@ void GraphicLib::exit_lib()
     endwin();
 }
 
-int GraphicLib::keyPressed() const
+int GraphicLib::keyPressed()
 {
     int my_getch = getch();
 
