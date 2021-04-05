@@ -19,10 +19,12 @@ void SfmlLib::init_lib()
 {
     this->_window.create(sf::VideoMode(1920, 1080), "My window");
     this->block_size = 16;
+    this->clearWindow();
 }
 
 void SfmlLib::exit_lib()
 {
+    this->clearWindow();
     this->_window.close();
 }
 
@@ -44,6 +46,8 @@ int SfmlLib::keyPressed()
             return 260;
         if (event.key.code == sf::Keyboard::BackSpace)
             return 263;
+        if (event.key.code == sf::Keyboard::Return)
+            return 10;
     }
     if (event.key.code == sf::Keyboard::Up || 
         event.key.code == sf::Keyboard::Down || 
@@ -193,12 +197,12 @@ void SfmlLib::printSelectedButton(int x, int y, std::string text)
     this->printOneSprite(x, y + 2, this->bouton_sprite["┗"]);
     this->printOneSprite(x + (int)len + 3, y, this->bouton_sprite["┓"]);
     this->printOneSprite(x + (int)len + 3, y + 2, this->bouton_sprite["┛"]);
-    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┇"]);
-    this->printOneSprite(x, y + 1, this->bouton_sprite["┇"]);
+    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┃"]);
+    this->printOneSprite(x, y + 1, this->bouton_sprite["┃"]);
 
     for (size_t i = 0 ; i != len + 2 ; i++) {
-        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["┅"]);
-        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["┅"]);
+        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["━"]);
+        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["━"]);
     }
     printText(x + 2, y + 1, text);
 }
@@ -234,6 +238,13 @@ void SfmlLib::printText(int x, int y, std::string string)
     std::string str;
     if (this->text.find(string) == this->text.end())
         str = clean_emoji(string).c_str();
+
+    sf::Sprite tex_clear;
+    tex_clear.setScale(0.64 * clean_emoji(string).size(), 0.64);
+    tex_clear.setTexture(this->bouton_sprite["clear"]);
+    tex_clear.setPosition(x * this->block_size, y * this->block_size - 2);
+    this->_window.draw(tex_clear);
+
     sf::Text text;
     text.setFont(this->MyFont);
     text.setString(str);
@@ -245,7 +256,7 @@ void SfmlLib::printText(int x, int y, std::string string)
 
 void SfmlLib::clearWindow()
 {
-
+    this->_window.clear(sf::Color::Black);
 }
 
 void SfmlLib::refreshWindow()

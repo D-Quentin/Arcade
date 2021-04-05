@@ -24,10 +24,12 @@ void GraphicLib::init_lib()
     cbreak();
     curs_set(0);
     nodelay(stdscr, TRUE);
+    this->clearWindow();
 }
 
 void GraphicLib::exit_lib()
 {
+    this->clearWindow();
     refresh();
     endwin();
 }

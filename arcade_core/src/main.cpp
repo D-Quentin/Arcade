@@ -7,34 +7,16 @@
 
 #include "arcade.hpp"
 
-IGraphicLib *open_lib(char *lib_name)
-{
-    MakerLib pMaker;
-    void *handle = dlopen(lib_name, RTLD_LAZY);
-    if(handle == NULL) {
-        std::cerr << "dlopen : "<< dlerror() << std::endl; 
-        std::exit(84);
-    }
-    void *mkr = dlsym(handle, "MakeGraphicLib");
-    IGraphicLib *lib = NULL;
-    if (mkr == NULL) {
-        std::cerr << "dlsym : " << dlerror() << std::endl;
-        std::exit(84);
-    }
-    pMaker = (MakerLib)mkr;
-    lib = pMaker();
-    return (lib);
-}
 int main(int ac, char **av)
 {
     IGraphicLib *lib = NULL;
+    Arcade arcade;
     if (ac != 2)
         return (84);
-    lib = open_lib(av[1]);
+    lib = arcade.open_lib(av[1]);
     if (lib == NULL)
         return (84);
     lib->assetLoader("assets/arcade");
-    Arcade arcade;
     lib->init_lib();
     arcade.launch_menu(lib);
     return (0);

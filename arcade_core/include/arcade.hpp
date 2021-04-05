@@ -22,6 +22,7 @@
 #define ARROW_LEFT 260
 #define ARROW_RIGHT 261
 #define KEY_DEL 263
+#define ENTER_KEY 10
 
 class Arcade
 {
@@ -39,12 +40,15 @@ public:
     void init_bouton();
     std::string get_logo(std::string name);
     void gest_name(int input);
+    IGraphicLib *switch_lib(IGraphicLib *glib, int input);
+    IGraphicLib *open_lib(const char *lib_name);
 
 private:
     std::vector<std::string> games;
     std::vector<std::string> libs;
     std::vector<std::vector<std::pair<bool, std::string>>> bouton;
     std::string player_name;
+    void *handle;
 };
 
 

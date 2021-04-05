@@ -23,10 +23,12 @@ void sdl2Lib::init_lib()
     this->renderer = SDL_CreateRenderer(this->win, -1, 0);
     this->block_size = 16;
     this->input_time = std::chrono::high_resolution_clock::now();
+    this->clearWindow();
 }
 
 void sdl2Lib::exit_lib()
 {
+    this->clearWindow();
     SDL_DestroyWindow(this->win);
     SDL_Quit();
     TTF_Quit();
@@ -47,6 +49,8 @@ int sdl2Lib::keyPressed()
             return 260;
         if (keys[SDL_SCANCODE_RIGHT])
             return 261;
+        if (keys[SDL_SCANCODE_RETURN])
+            return 10;
         if (event.key.keysym.scancode >= 'a' && event.key.keysym.scancode <= 'z')
             return event.key.keysym.scancode;
         return -1;
@@ -108,12 +112,6 @@ void sdl2Lib::printMap(std::vector<std::string> vs)
         }
         spe_char = "0";
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-            // std::cout << "Char : " << m->first << std::endl;
-            // std::cout << "Replace char : " << spe_char << std::endl;
-            // std::cout << "Avant : " << vs[i];
-            // std::cout << "Après : " << tmp2;
-            // std::cout << "Path tex : " << m->second << std::endl;
-
             for (int h = 0 ; h != vs[i].size() ; h++, tmp = "") {
                 if (vs[i][h] == spe_char[0]) {
                     tmp += m->first;
@@ -212,12 +210,12 @@ void sdl2Lib::printSelectedButton(int x, int y, std::string text)
     this->printOneSprite(x, y + 2, this->bouton_sprite["┗"]);
     this->printOneSprite(x + (int)len + 3, y, this->bouton_sprite["┓"]);
     this->printOneSprite(x + (int)len + 3, y + 2, this->bouton_sprite["┛"]);
-    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┇"]);
-    this->printOneSprite(x, y + 1, this->bouton_sprite["┇"]);
+    this->printOneSprite(x + (int)len + 3, y + 1, this->bouton_sprite["┃"]);
+    this->printOneSprite(x, y + 1, this->bouton_sprite["┃"]);
 
     for (size_t i = 0 ; i != len + 2 ; i++) {
-        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["┅"]);
-        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["┅"]);
+        this->printOneSprite(x + (int)i + 1, y + 2, this->bouton_sprite["━"]);
+        this->printOneSprite(x + (int)i + 1, y, this->bouton_sprite["━"]);
     }
     SDL_RenderPresent(renderer);
     printText(x + 2, y + 1, text);
