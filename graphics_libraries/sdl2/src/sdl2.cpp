@@ -38,7 +38,7 @@ int sdl2Lib::keyPressed()
 {
     SDL_Event event;
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
-    while (SDL_PollEvent(&event)) {
+    if (SDL_PollEvent(&event) != 0 && event.type == SDL_KEYDOWN) {
         if (keys[SDL_SCANCODE_BACKSPACE])
             return 263;
         if (keys[SDL_SCANCODE_DOWN])
@@ -51,18 +51,64 @@ int sdl2Lib::keyPressed()
             return 261;
         if (keys[SDL_SCANCODE_RETURN])
             return 10;
-        if (event.key.keysym.scancode >= 'a' && event.key.keysym.scancode <= 'z')
-            return event.key.keysym.scancode;
-        return -1;
+        if (keys[SDL_SCANCODE_A])
+            return 'q';
+        if (keys[SDL_SCANCODE_B])
+            return 'b';
+        if (keys[SDL_SCANCODE_C])
+            return 'c';
+        if (keys[SDL_SCANCODE_D])
+            return 'd';
+        if (keys[SDL_SCANCODE_E])
+            return 'e';
+        if (keys[SDL_SCANCODE_F])
+            return 'f';
+        if (keys[SDL_SCANCODE_G])
+            return 'g';
+        if (keys[SDL_SCANCODE_H])
+            return 'H';
+        if (keys[SDL_SCANCODE_I])
+            return 'i';
+        if (keys[SDL_SCANCODE_J])
+            return 'j';
+        if (keys[SDL_SCANCODE_K])
+            return 'k';
+        if (keys[SDL_SCANCODE_L])
+            return 'l';
+        if (keys[SDL_SCANCODE_M])
+            return ';';
+        if (keys[SDL_SCANCODE_N])
+            return 'n';
+        if (keys[SDL_SCANCODE_O])
+            return 'o';
+        if (keys[SDL_SCANCODE_P])
+            return 'p';
+        if (keys[SDL_SCANCODE_Q])
+            return 'a';
+        if (keys[SDL_SCANCODE_R])
+            return 'r';
+        if (keys[SDL_SCANCODE_S])
+            return 's';
+        if (keys[SDL_SCANCODE_T])
+            return 't';
+        if (keys[SDL_SCANCODE_U])
+            return 'u';
+        if (keys[SDL_SCANCODE_V])
+            return 'v';
+        if (keys[SDL_SCANCODE_W])
+            return 'z';
+        if (keys[SDL_SCANCODE_X])
+            return 'x';
+        if (keys[SDL_SCANCODE_Z])
+            return 'W';
     }
     return (-1);
 }
 
 std::string str_replace_str(std::string str, std::string str2, std::string str3)
 {
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    size_t a = 0;
+    size_t b = 0;
     int x = 0;
     std::string str4 = "";
 
@@ -105,14 +151,14 @@ void sdl2Lib::printMap(std::vector<std::string> vs)
     std::string spe_char = "0";
     SDL_Texture *tex = NULL;
 
-    for (int i = 0; i != vs.size(); i++) {
+    for (size_t i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
             vs[i] = str_replace_str(vs[i], m->first, spe_char);
             spe_char[0]++;
         }
         spe_char = "0";
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-            for (int h = 0 ; h != vs[i].size() ; h++, tmp = "") {
+            for (size_t h = 0 ; h != vs[i].size() ; h++, tmp = "") {
                 if (vs[i][h] == spe_char[0]) {
                     tmp += m->first;
                     dstrect = {x, y, this->block_size, this->block_size};
@@ -132,9 +178,9 @@ void sdl2Lib::printMap(std::vector<std::string> vs)
 }
 std::string begin_str(std::string str, char a)
 {
-    int b = 0;
+    size_t b = 0;
     std::string str2;
-    int c = 0;
+    size_t c = 0;
 
     while (b != str.size()) {
         if (str[b] == a)
@@ -150,9 +196,9 @@ std::string begin_str(std::string str, char a)
 
 int str_in_str(std::string str, std::string str2)
 {
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    size_t a = 0;
+    size_t b = 0;
+    size_t c = 0;
     int result = 0;
 
     while (a != str.size()) {
@@ -255,7 +301,7 @@ void sdl2Lib::printText(int x, int y, std::string string)
         this->text[string] = TTF_RenderText_Solid(TTF_OpenFont(this->font.c_str(), this->block_size + 2), clean_emoji(string).c_str(), color);
     
     SDL_Texture *tex_clear = SDL_CreateTextureFromSurface(this->renderer, this->bouton_sprite["clear"]);
-    SDL_Rect dstrect_clear = {x * this->block_size, y * this->block_size, this->block_size * clean_emoji(string).size(), this->block_size};
+    SDL_Rect dstrect_clear = {x * this->block_size, y * this->block_size, this->block_size * ((int)clean_emoji(string).size()), this->block_size};
     SDL_RenderCopy(this->renderer, tex_clear, NULL, &dstrect_clear);
     SDL_DestroyTexture(tex_clear);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(this->renderer, this->text[string]);
@@ -285,10 +331,13 @@ void sdl2Lib::printTitle(std::string)
 {
 
 }
+
 std::pair<int, int> sdl2Lib::getWindowSize() const
 {
-
+    std::pair<int, int> test;
+    return test;
 }
+
 void sdl2Lib::assetLoader(const std::string str)
 {
     std::string tmp = "";

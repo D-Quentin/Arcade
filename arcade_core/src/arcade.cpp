@@ -75,7 +75,7 @@ void Arcade::launch_menu(IGraphicLib *glib)
     while (1) {
         glib = this->switch_lib(glib, input);
         input = glib->keyPressed();
-        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 100000000) {
+        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
             glib->printMap(map_menu);
             this->print_bouton(glib);
             glib->printText(44, 1, "🎮 Arcade 🎮");
@@ -93,12 +93,13 @@ void Arcade::launch_menu(IGraphicLib *glib)
 
 IGraphicLib *Arcade::switch_lib(IGraphicLib *glib, int input)
 {
-    if (input != 10)
+    if ((int)input != 10)
         return (glib);
     std::string tmp = "";
     for (size_t i = 0 ; i != this->bouton[0].size() ; i++) {
         if (this->bouton[0][i].first == 1) {
             glib->exit_lib();
+            delete (glib);
             dlclose(this->handle);
             tmp = "lib/arcade_" + this->bouton[0][i].second + ".so";
             glib = open_lib(tmp.c_str());
@@ -162,9 +163,7 @@ void Arcade::gest_name(int input)
 
 void Arcade::gest_bouton(int input)
 {
-    int key = input;
-
-    if (key == ARROW_UP) {
+    if (input == ARROW_UP) {
         for (size_t i = 0 ; i != this->libs.size() ; i++) {
             if (this->bouton[0][i].first == 1 && i != 0) {
                 this->bouton[0][i].first = 0;
@@ -180,7 +179,7 @@ void Arcade::gest_bouton(int input)
             }
         }
     }
-    if (key == ARROW_DOWN) {
+    if (input == ARROW_DOWN) {
         for (size_t i = 0 ; i != this->libs.size() ; i++) {
             if (this->bouton[0][i].first == 1 && i + 1 != this->libs.size()) {
                 this->bouton[0][i].first = 0;
@@ -197,7 +196,7 @@ void Arcade::gest_bouton(int input)
         }
     }
 
-    if (key == ARROW_RIGHT) {
+    if (input == ARROW_RIGHT) {
         for (size_t i = 0 ; i != this->games.size() ; i++) {
             if (this->bouton[1][i].first == 1) {
                 this->bouton[1][i].first = 0;
@@ -213,7 +212,7 @@ void Arcade::gest_bouton(int input)
             }
         }
     }
-    if (key == ARROW_LEFT) {
+    if (input == ARROW_LEFT) {
         for (size_t i = 0 ; i != this->games.size() ; i++) {
             if (this->bouton[1][i].first == 1) {
                 this->bouton[1][i].first = 0;

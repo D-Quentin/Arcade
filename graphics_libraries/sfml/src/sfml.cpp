@@ -33,9 +33,9 @@ int SfmlLib::keyPressed()
     sf::Event event;
     if (this->_window.pollEvent(event) == false)
         return -1;
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.type == sf::Event::Closed)
+    if (event.type == sf::Event::Closed)
             return 'q';
+    if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up)
             return 259;
         if (event.key.code == sf::Keyboard::Down)
@@ -48,21 +48,67 @@ int SfmlLib::keyPressed()
             return 263;
         if (event.key.code == sf::Keyboard::Return)
             return 10;
+        if (event.key.code == sf::Keyboard::A)
+            return 'a';
+        if (event.key.code == sf::Keyboard::B)
+            return 'b';
+        if (event.key.code == sf::Keyboard::C)
+            return 'c';
+        if (event.key.code == sf::Keyboard::D)
+            return 'd';
+        if (event.key.code == sf::Keyboard::E)
+            return 'e';
+        if (event.key.code == sf::Keyboard::F)
+            return 'f';
+        if (event.key.code == sf::Keyboard::G)
+            return 'g';
+        if (event.key.code == sf::Keyboard::H)
+            return 'h';
+        if (event.key.code == sf::Keyboard::I)
+            return 'i';
+        if (event.key.code == sf::Keyboard::J)
+            return 'j';
+        if (event.key.code == sf::Keyboard::K)
+            return 'k';
+        if (event.key.code == sf::Keyboard::L)
+            return 'l';
+        if (event.key.code == sf::Keyboard::M)
+            return 'n';
+        if (event.key.code == sf::Keyboard::N)
+            return 'n';
+        if (event.key.code == sf::Keyboard::O)
+            return 'o';
+        if (event.key.code == sf::Keyboard::P)
+            return 'p';
+        if (event.key.code == sf::Keyboard::Q)
+            return 'q';
+        if (event.key.code == sf::Keyboard::R)
+            return 'r';
+        if (event.key.code == sf::Keyboard::S)
+            return 's';
+        if (event.key.code == sf::Keyboard::T)
+            return 't';
+        if (event.key.code == sf::Keyboard::U)
+            return 'u';
+        if (event.key.code == sf::Keyboard::V)
+            return 'v';
+        if (event.key.code == sf::Keyboard::W)
+            return 'w';
+        if (event.key.code == sf::Keyboard::X)
+            return 'x';
+        if (event.key.code == sf::Keyboard::Y)
+            return 'y';
+        if (event.key.code == sf::Keyboard::Z)
+            return 'z';
     }
-    if (event.key.code == sf::Keyboard::Up || 
-        event.key.code == sf::Keyboard::Down || 
-        event.key.code == sf::Keyboard::Right || 
-        event.key.code == sf::Keyboard::Left || 
-        event.key.code == sf::Keyboard::BackSpace)
-        return -1;
-    return event.key.code;
+    return -1;
 }
 
 int str_in_str(std::string str, std::string str2)
 {
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    size_t a = 0;
+    size_t b = 0;
+    size_t c = 0;
     int result = 0;
 
     while (a != str.size()) {
@@ -87,9 +133,8 @@ int str_in_str(std::string str, std::string str2)
 
 std::string str_replace_str(std::string str, std::string str2, std::string str3)
 {
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    size_t a = 0;
+    size_t b = 0;
     int x = 0;
     std::string str4 = "";
 
@@ -128,20 +173,17 @@ void SfmlLib::printMap(std::vector<std::string> vs)
     std::string tmp = "";
     std::string tmp2 = "";
     std::string spe_char = "0";
-    SDL_Texture *tex = NULL;
-    std::string path = "";
     sf::Texture texture;
     sf::Sprite sprite;
     
-    for (int i = 0; i != vs.size(); i++) {
+    for (size_t i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
             vs[i] = str_replace_str(vs[i], m->first, spe_char);
             spe_char[0]++;
         }
         spe_char = "0";
-        std::string test = "┃";
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-           for (int h = 0 ; h != vs[i].size() ; h++, tmp = "") {
+           for (size_t h = 0 ; h != vs[i].size() ; h++, tmp = "") {
                 if (vs[i][h] == spe_char[0]) {
                     tmp += m->first;
                     sprite.setScale(0.64, 0.64);
@@ -235,7 +277,7 @@ std::string SfmlLib::clean_emoji(std::string str)
     
 void SfmlLib::printText(int x, int y, std::string string)
 {
-    std::string str;
+    std::string str = "";
     if (this->text.find(string) == this->text.end())
         str = clean_emoji(string).c_str();
 
@@ -249,7 +291,7 @@ void SfmlLib::printText(int x, int y, std::string string)
     text.setFont(this->MyFont);
     text.setString(str);
     text.setCharacterSize(this->block_size);
-    text.setColor(sf::Color::White);
+    text.setFillColor(sf::Color::White);
     text.setPosition(x *this->block_size, y * this->block_size - 2);
     this->_window.draw(text);
 }
@@ -270,17 +312,19 @@ void SfmlLib::printWindow()
 
 void SfmlLib::printTitle(std::string text)
 {
+    (void)text;
 }
 
 std::pair<int, int> SfmlLib::getWindowSize() const
 {
-
+    std::pair<int, int> test;
+    return test;
 }
 std::string begin_str(std::string str, char a)
 {
-    int b = 0;
-    std::string str2;
-    int c = 0;
+    size_t b = 0;
+    std::string str2 = "";
+    size_t c = 0;
 
     while (b != str.size()) {
         if (str[b] == a)
@@ -355,11 +399,11 @@ void SfmlLib::assetLoader(const std::string str)
             line += c;
         }
     }
-    tex = "assets/sdl2/sprites";
+    tex = "assets/sfml/sprites";
     rep = opendir(tex.c_str());
     if (rep != NULL) {
         struct dirent* ent;
-        tmp = "assets/sdl2/sprites/";
+        tmp = "assets/sfml/sprites/";
         while((ent = readdir(rep)) != NULL) {
             if (strstr(ent->d_name, ".png") != NULL) {
                 tmp += ent->d_name;
@@ -367,7 +411,7 @@ void SfmlLib::assetLoader(const std::string str)
                 texture.loadFromFile(tmp.c_str());
                 this->bouton_sprite[tmp2] = texture;
             }
-            tmp = "assets/sdl2/sprites/";
+            tmp = "assets/sfml/sprites/";
             tmp2 = "";
         }
     }

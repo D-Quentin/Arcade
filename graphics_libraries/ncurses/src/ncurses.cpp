@@ -36,6 +36,7 @@ void GraphicLib::exit_lib()
 
 int GraphicLib::keyPressed()
 {
+
     int my_getch = getch();
 
     return (my_getch);
@@ -54,9 +55,9 @@ void GraphicLib::printMap(std::vector<std::string> map)
 
 int str_in_str(std::string str, std::string str2)
 {
-    int a = 0;
-    int b = 0;
-    int c = 0;
+    size_t a = 0;
+    size_t b = 0;
+    size_t c = 0;
     int result = 0;
 
     while (a != str.size()) {
@@ -159,7 +160,8 @@ void GraphicLib::printTitle(std::string)
 
 std::pair<int, int> GraphicLib::getWindowSize() const
 {
-
+    std::pair<int, int> tmp = {0, 0};
+    return tmp;
 }
 
 void GraphicLib::assetLoader(const std::string)

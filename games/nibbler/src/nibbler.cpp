@@ -25,15 +25,15 @@ Game::~Game()
 
 void Game::launchMenu(IGraphicLib *glib)
 {
-
+    (void)glib;
 }
 
 void Game::launchGame(IGraphicLib *glib)
 {
-
+    (void)glib;
 }
 
 void Game::gameLoop(IGraphicLib *glib)
 {
-
+    (void)glib;
 }
