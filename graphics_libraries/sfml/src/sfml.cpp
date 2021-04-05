@@ -17,7 +17,7 @@ extern "C"
 
 void SfmlLib::init_lib()
 {
-    this->_window.create(sf::VideoMode(1920, 1080), "My window");
+    this->_window.create(sf::VideoMode(1920, 1080, 32), "SFML Window", sf::Style::Fullscreen);
     this->block_size = 16;
     this->clearWindow();
 }
