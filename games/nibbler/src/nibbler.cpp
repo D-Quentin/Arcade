@@ -28,12 +28,12 @@ void Game::launchMenu(IGraphicLib *glib)
     (void)glib;
 }
 
-void Game::launchGame(IGraphicLib *glib)
+int Game::launchGame(IGraphicLib *glib)
 {
     (void)glib;
 }
 
-void Game::gameLoop(IGraphicLib *glib)
+int Game::gameLoop(IGraphicLib *glib)
 {
     (void)glib;
 }

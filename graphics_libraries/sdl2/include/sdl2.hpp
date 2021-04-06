@@ -47,7 +47,6 @@ private:
     std::map<std::string, SDL_Surface *> text;
     std::map<std::string, SDL_Surface *> bouton_sprite;
     std::map<std::string, std::string> emoji;
-    std::chrono::_V2::system_clock::time_point input_time;
     int block_size;
 };
 

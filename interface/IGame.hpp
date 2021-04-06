@@ -14,8 +14,8 @@ class IGame {
     public:
         virtual ~IGame() = default;
         virtual void launchMenu(IGraphicLib *glib) = 0;
-        virtual void launchGame(IGraphicLib *glib) = 0;
-        virtual void gameLoop(IGraphicLib *glib) = 0;
+        virtual int launchGame(IGraphicLib *glib) = 0;
+        virtual int gameLoop(IGraphicLib *glib) = 0;
 
     protected:
     private:

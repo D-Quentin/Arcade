@@ -117,8 +117,6 @@ void Arcade::gest_input(IGraphicLib *glib, int input)
         glib->exit_lib();
         std::exit(0);
     }
-    if (input != -1)
-        glib->printButton(100, 2, std::to_string(input));
 }
 
 std::vector<std::string> Arcade::load_map(std::string path)

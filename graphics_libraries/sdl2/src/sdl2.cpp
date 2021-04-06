@@ -22,7 +22,6 @@ void sdl2Lib::init_lib()
     this->win = SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_FULLSCREEN);
     this->renderer = SDL_CreateRenderer(this->win, -1, 0);
     this->block_size = 16;
-    this->input_time = std::chrono::high_resolution_clock::now();
     this->clearWindow();
 }
 

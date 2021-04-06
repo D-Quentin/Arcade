@@ -20,8 +20,8 @@ public:
     Game();
     ~Game();
     virtual void launchMenu(IGraphicLib *glib);
-    virtual void launchGame(IGraphicLib *glib);
-    virtual void gameLoop(IGraphicLib *glib);
+    virtual int launchGame(IGraphicLib *glib);
+    virtual int gameLoop(IGraphicLib *glib);
 };
 
 #endif /* !NIBBLER_HPP_ */
