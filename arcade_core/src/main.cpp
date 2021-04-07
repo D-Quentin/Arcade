@@ -19,5 +19,6 @@ int main(int ac, char **av)
     lib->assetLoader("assets/arcade");
     lib->init_lib();
     arcade.launch_menu(lib);
+    std::cout << "LOL";
     return (0);
 }

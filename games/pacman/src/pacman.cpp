@@ -31,7 +31,7 @@ void Game::launchMenu(IGraphicLib *glib)
 
 int Game::launchGame(IGraphicLib *glib)
 {
-    (void)glib;
+    std::cout << "lalalal";
 }
 
 int Game::gameLoop(IGraphicLib *glib)
