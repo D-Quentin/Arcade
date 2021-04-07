@@ -140,7 +140,7 @@ void GraphicLib::printText(int x, int y, std::string str)
 
 void GraphicLib::clearWindow()
 {
-
+    clear();
 }
 
 void GraphicLib::refreshWindow()

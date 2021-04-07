@@ -11,7 +11,12 @@
 #include <iostream>
 #include "IGame.hpp"
 #include "IGraphicLib.hpp"
-
+#include <dlfcn.h>
+#include <vector>
+#include <dirent.h>
+#include <string.h>
+#include <fstream>
+#include <chrono>
 class Game : public IGame
 {
 private:
@@ -22,6 +27,8 @@ public:
     virtual void launchMenu(IGraphicLib *glib);
     virtual int launchGame(IGraphicLib *glib);
     virtual int gameLoop(IGraphicLib *glib);
+    std::vector<std::string> load_map(std::string path);
+    void gest_input(IGraphicLib *glib, int input);
 };
 
 

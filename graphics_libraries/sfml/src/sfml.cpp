@@ -175,8 +175,8 @@ void SfmlLib::printMap(std::vector<std::string> vs)
     std::string spe_char = "0";
     sf::Texture texture;
     sf::Sprite sprite;
-    
-    for (size_t i = 0; i != vs.size(); i++) {
+
+        for (size_t i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
             vs[i] = str_replace_str(vs[i], m->first, spe_char);
             spe_char[0]++;
@@ -299,6 +299,7 @@ void SfmlLib::printText(int x, int y, std::string string)
 void SfmlLib::clearWindow()
 {
     this->_window.clear(sf::Color::Black);
+    this->_window.display();
 }
 
 void SfmlLib::refreshWindow()

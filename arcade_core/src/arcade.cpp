@@ -132,6 +132,8 @@ void Arcade::launch_game(IGraphicLib *glib, int input)
     for (size_t i = 0 ; i != this->bouton[1].size() ; i++) {
         if (this->bouton[1][i].first == 1) {
             game = this->open_lib_game(this->games[i].c_str());
+            glib->assetLoader("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11));
+            
             score = game->launchGame(glib);
             dlclose(this->game_handle);
             delete (game);
