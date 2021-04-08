@@ -19,8 +19,6 @@
 #include <chrono>
 class Game : public IGame
 {
-private:
-    /* data */
 public:
     Game();
     ~Game();
@@ -28,7 +26,15 @@ public:
     virtual int launchGame(IGraphicLib *glib);
     virtual int gameLoop(IGraphicLib *glib);
     std::vector<std::string> load_map(std::string path);
-    void gest_input(IGraphicLib *glib, int input);
+    void gest_exit(IGraphicLib *glib, int input);
+    void gest_input(IGraphicLib *glib, int input, std::vector<std::string> map);
+    std::vector<std::string> move_pac(IGraphicLib *glib, int input, std::vector<std::string> map);
+private:
+    std::vector<std::pair<int, int>> fpos;
+    std::pair<int, int> ppos;
+    std::vector<int> fdir;
+    int pdir;
+    int score;
 };
 
 
