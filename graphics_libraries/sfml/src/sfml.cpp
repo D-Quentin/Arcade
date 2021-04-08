@@ -170,26 +170,37 @@ void SfmlLib::printMap(std::vector<std::string> vs)
 {
     int x = 0;
     int y = 0;
-    std::string tmp = "";
     std::string tmp2 = "";
     std::string spe_char = "0";
     sf::Texture texture;
     sf::Sprite sprite;
+    sf::Sprite spe_sprite;
 
         for (size_t i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-            vs[i] = str_replace_str(vs[i], m->first, spe_char);
+            if (m->second.getSize().x > 25) {
+                vs[i] = str_replace_str(vs[i], m->first, spe_char + " ");
+            } else {
+                vs[i] = str_replace_str(vs[i], m->first, spe_char);
+            }
             spe_char[0]++;
         }
         spe_char = "0";
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
-           for (size_t h = 0 ; h != vs[i].size() ; h++, tmp = "") {
+           for (size_t h = 0 ; h != vs[i].size() ; h++) {
                 if (vs[i][h] == spe_char[0]) {
-                    tmp += m->first;
-                    sprite.setScale(0.64, 0.64);
-                    sprite.setTexture(m->second);
-                    sprite.setPosition(x, y);
-                    this->_window.draw(sprite);
+                    if (m->second.getSize().x > 25) {
+                        spe_sprite.setTexture(m->second);
+                        spe_sprite.setScale(0.64, 0.64);
+                        spe_sprite.setPosition(x, y);
+                        this->_window.draw(spe_sprite);
+                    } else {
+                        sprite.setTexture(m->second);
+                        sprite.setScale(0.64, 0.64);
+                        sprite.setPosition(x, y);
+                        this->_window.draw(sprite);
+                    }
+                    
                 }
                 x = x + this->block_size;
             }
