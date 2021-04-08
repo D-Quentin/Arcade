@@ -17,7 +17,7 @@ extern "C"
 
 void SfmlLib::init_lib()
 {
-    this->_window.create(sf::VideoMode(1920, 1080, 32), "SFML Window", sf::Style::Fullscreen);
+    this->_window.create(sf::VideoMode(1920, 1080, 32), "Game", sf::Style::Fullscreen);
     this->block_size = 16;
     this->clearWindow();
 }
@@ -210,7 +210,6 @@ void SfmlLib::printMap(std::vector<std::string> vs)
         spe_char = "0";
         y = y + this->block_size;
     }
-    this->_window.display();
 }
 
 size_t strlen_emoji(const std::string& str)
@@ -310,7 +309,6 @@ void SfmlLib::printText(int x, int y, std::string string)
 void SfmlLib::clearWindow()
 {
     this->_window.clear(sf::Color::Black);
-    this->_window.display();
 }
 
 void SfmlLib::refreshWindow()

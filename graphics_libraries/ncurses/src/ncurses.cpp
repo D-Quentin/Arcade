@@ -145,7 +145,7 @@ void GraphicLib::clearWindow()
 
 void GraphicLib::refreshWindow()
 {
-
+    refresh();
 }
 
 void GraphicLib::printWindow()

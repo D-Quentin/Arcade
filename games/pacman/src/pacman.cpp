@@ -221,21 +221,23 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
 int Game::gameLoop(IGraphicLib *glib)
 {
     int input = -1;
-    glib->clearWindow();    
+    auto pmove = std::chrono::high_resolution_clock::now();
     auto refresh = std::chrono::high_resolution_clock::now();
     std::vector<std::string> map_menu = this->load_map("assets/pacman/maps/map.txt");
     while (1) {
         input = glib->keyPressed();
-        glib->printMap(map_menu);
-        gest_exit(glib, input);
-        gest_input(glib, input, map_menu);
-        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 150000000) {
-            map_menu = move_pac(glib, input, map_menu);
-            //glib->clearWindow();
+        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
+            glib->clearWindow();
+            glib->printMap(map_menu);
+            if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000) {
+                map_menu = move_pac(glib, input, map_menu);
+                pmove = std::chrono::high_resolution_clock::now();
+            }
+            glib->refreshWindow();
             refresh = std::chrono::high_resolution_clock::now();
-            std::cout << this->score;
         }
-            //glib->clearWindow();
+        this->gest_exit(glib, input);
+        this->gest_input(glib, input, map_menu);
     }
     (void)glib;
 }

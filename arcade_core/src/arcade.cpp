@@ -101,6 +101,7 @@ void Arcade::launch_menu(IGraphicLib *glib)
             return;
         input = glib->keyPressed();
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
+            glib->clearWindow();
             glib->printMap(map_menu);
             this->print_bouton(glib);
             glib->printText(44, 1, "🎮 Arcade 🎮");
@@ -108,6 +109,7 @@ void Arcade::launch_menu(IGraphicLib *glib)
             glib->printText(24, 3, "👾 Games 👾");
             glib->printText(61, 3, "🏆 Leaderboard 🏆");
             this->print_leaderboard(glib);
+            glib->refreshWindow();
             refresh = std::chrono::high_resolution_clock::now();
         }
         this->gest_name(input);
@@ -131,13 +133,14 @@ void Arcade::launch_game(IGraphicLib *glib, int input)
     int score = 0;
     for (size_t i = 0 ; i != this->bouton[1].size() ; i++) {
         if (this->bouton[1][i].first == 1) {
+            glib->clearWindow();
             game = this->open_lib_game(this->games[i].c_str());
             glib->assetLoader("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11));
-            
             score = game->launchGame(glib);
             dlclose(this->game_handle);
             delete (game);
             this->gest_leaderboard("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11), this->player_name, score);
+            glib->clearWindow();
             if (score == -1) {
                 glib->exit_lib();
                 this->my_exit = true;
