@@ -36,7 +36,12 @@ void Game::launchMenu(IGraphicLib *glib)
 
 int Game::launchGame(IGraphicLib *glib)
 {
-    gameLoop(glib);    
+    glib->clearWindow();
+    this->ppos.first = 22;
+    this->ppos.second = 18;
+    this->pdir = 0;
+    this->score = 0;
+    gameLoop(glib);
 }
 
 std::vector<std::string> Game::load_map(std::string path)
@@ -126,13 +131,58 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
     std::vector<std::string> map_temp = map;
     int w = 0;
 
+    printf("%d\n", this->pdir);
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "🐍", "P ");
-        map_temp[i] = str_replace_str(map_temp[i], "🍎", "F ");
+        map_temp[i] = str_replace_str(map_temp[i], "🍎", "* ");
+    }
+    if(this->pdir == 3 and map_temp[this->ppos.second][this->ppos.first - 2] == '*') {  
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second][this->ppos.first - 2] = 'P';
+        this->ppos.first = this->ppos.first - 2;
+        map_temp[this->ppos.second][this->ppos.first - 2] == ' ';
+        this->score = this->score + 1;
+    } else if(this->pdir == 3 and map_temp[this->ppos.second][this->ppos.first - 2] == ' ') { 
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second][this->ppos.first - 2] = 'P';
+        this->ppos.first = this->ppos.first - 2;
+    }
+    if (this->pdir == 0 and map_temp[this->ppos.second - 1][this->ppos.first] == '*' and map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second - 1][this->ppos.first] = 'P'; 
+        map_temp[this->ppos.second - 1][this->ppos.first] == ' ';
+        this->ppos.second = this->ppos.second -1;
+        this->score = this->score + 1;
+    } else if(this->pdir == 0 and map_temp[this->ppos.second - 1][this->ppos.first] == ' ' and map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second - 1][this->ppos.first] = 'P'; 
+        this->ppos.second = this->ppos.second -1;
+    }
+    if (this->pdir == 1 and map_temp[this->ppos.second][this->ppos.first + 2] == '*') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second][this->ppos.first + 2] = 'P';
+        this->ppos.first = this->ppos.first + 2;
+        map_temp[this->ppos.second][this->ppos.first + 2] == ' ';
+        this->score = this->score + 1;
+    } else if (this->pdir == 1 and map_temp[this->ppos.second][this->ppos.first + 2] == ' ') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second][this->ppos.first + 2] = 'P';
+        this->ppos.first = this->ppos.first + 2;
+    }
+    if (this->pdir == 2 and map_temp[this->ppos.second + 1][this->ppos.first] == '*' and map_temp[this->ppos.second + 1][this->ppos.first + 1] == ' ') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second + 1][this->ppos.first] = 'P';
+        this->ppos.second = this->ppos.second + 1;
+        map_temp[this->ppos.second + 1][this->ppos.first] == ' ';
+        this->score = this->score + 1;
+    } else if(this->pdir == 2 and map_temp[this->ppos.second + 1][this->ppos.first] == ' ' and map_temp[this->ppos.second + 1][this->ppos.first + 1] == ' ') {
+        map_temp[this->ppos.second][this->ppos.first] = ' ';
+        map_temp[this->ppos.second + 1][this->ppos.first] = 'P';
+        this->ppos.second = this->ppos.second + 1;
     }
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "P ", "🐍");
-        map_temp[i] = str_replace_str(map_temp[i], "F ", "🍎");
+        map_temp[i] = str_replace_str(map_temp[i], "* ", "🍎");
     }
     return map_temp;
 }
