@@ -264,12 +264,15 @@ std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::st
         }
         if (v1 == 1) {
             x = 1;
-            if (this->fdir[this->ghost] == 1 and this->fpos[this->ghost].first >= 48) {
-                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+            if (this->fdir[this->ghost] == 3 and this->fpos[this->ghost].first >= 48)
+                a = 1;
+            else if (this->fdir[this->ghost] != 3 and this->fpos[this->ghost].first >= 48) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = ' ';
                 map_temp[this->fpos[this->ghost].second][0] = this->ghost + 48;
                 this->behind_ghost[this->ghost] = ' ';
                 this->fpos[this->ghost].first = 0;
-                this->fdir[this->ghost] = 3;
+                this->fdir[this->ghost] = 1;
+                a = 1;
             } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == '*' and this->fdir[this->ghost] != 3) {
                 map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
                 map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] = this->ghost + 48;
@@ -314,11 +317,16 @@ std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::st
         }
         if (v1 == 3) {
             z = 1;
-            if (this->fdir[this->ghost] == 3 and this->fpos[this->ghost].first == 0) {
-                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+            if (this->fdir[this->ghost] == 1 and this->fpos[this->ghost].first == 0) {
+                a = 1;
+            }
+            else if (this->fdir[this->ghost] != 1 and this->fpos[this->ghost].first == 0) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = ' ';
                 map_temp[this->fpos[this->ghost].second][48] = this->ghost + 48;
                 this->fpos[this->ghost].first = 48;
-                this->fdir[this->ghost] = 1;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fdir[this->ghost] = 3;
+                a = 1;
             } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == '*' and this->fdir[this->ghost] != 1) {
                 map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
                 map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] = this->ghost + 48;
