@@ -14,14 +14,21 @@
 
 class Game : public IGame
 {
-private:
-    /* data */
 public:
     Game();
     ~Game();
     virtual void launchMenu(IGraphicLib *glib);
     virtual int launchGame(IGraphicLib *glib);
     virtual int gameLoop(IGraphicLib *glib);
+    std::vector<std::string> load_map(std::string path);
+    void gest_exit(IGraphicLib *glib, int input);
+    void gest_input(IGraphicLib *glib, int input, std::vector<std::string> map);
+    std::vector<std::string> move_nib(IGraphicLib *glib, int input, std::vector<std::string> map);
+    std::string str_replace_str(std::string str, std::string str2, std::string str3);
+private:
+    std::pair<int, int> ppos;
+    int pdir;
+    int score;
 };
 
 #endif /* !NIBBLER_HPP_ */

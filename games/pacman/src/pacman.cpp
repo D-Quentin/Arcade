@@ -124,6 +124,7 @@ std::string str_replace_str(std::string str, std::string str2, std::string str3)
     }
     return str4;
 }
+
 void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map)
 {
     if (input == 259) 
@@ -218,12 +219,14 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
     return map_temp;
 
 }
+
 int Game::gameLoop(IGraphicLib *glib)
 {
     int input = -1;
     auto pmove = std::chrono::high_resolution_clock::now();
     auto refresh = std::chrono::high_resolution_clock::now();
     std::vector<std::string> map_menu = this->load_map("assets/pacman/maps/map.txt");
+
     while (1) {
         input = glib->keyPressed();
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {

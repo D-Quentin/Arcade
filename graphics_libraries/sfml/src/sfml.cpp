@@ -176,7 +176,7 @@ void SfmlLib::printMap(std::vector<std::string> vs)
     sf::Sprite sprite;
     sf::Sprite spe_sprite;
 
-        for (size_t i = 0; i != vs.size(); i++) {
+    for (size_t i = 0; i != vs.size(); i++) {
         for (auto m = this->sprite.begin() ; m != this->sprite.end() ; m++) {
             if (m->second.getSize().x > 25) {
                 vs[i] = str_replace_str(vs[i], m->first, spe_char + " ");
