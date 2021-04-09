@@ -226,12 +226,15 @@ int Game::gameLoop(IGraphicLib *glib)
     auto pmove = std::chrono::high_resolution_clock::now();
     auto refresh = std::chrono::high_resolution_clock::now();
     std::vector<std::string> map_menu = this->load_map("assets/pacman/maps/map.txt");
-
+    std::string affich_score;
     while (1) {
         input = glib->keyPressed();
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
             glib->clearWindow();
             glib->printMap(map_menu);
+            auto s = std::to_string(this->score);
+            affich_score = "Score : " + s;
+            glib->printSelectedButton(50, 0, affich_score);
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000) {
                 map_menu = move_pac(glib, input, map_menu);
                 pmove = std::chrono::high_resolution_clock::now();

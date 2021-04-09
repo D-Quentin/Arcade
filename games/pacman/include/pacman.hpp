@@ -17,6 +17,7 @@
 #include <string.h>
 #include <fstream>
 #include <chrono>
+
 class Game : public IGame
 {
 public:
@@ -36,6 +37,5 @@ private:
     int pdir;
     int score;
 };
-
 
 #endif /* !PACMAN_HPP_ */
