@@ -36,9 +36,12 @@ void Game::launchMenu(IGraphicLib *glib)
 
 int Game::launchGame(IGraphicLib *glib)
 {
+    std::pair<int, int> value;
+
     glib->clearWindow();
-    this->ppos.first = 22;
-    this->ppos.second = 18;
+    value.first = 22;
+    value.second = 17;
+    this->npos.push_back(value);
     this->pdir = 0;
     this->score = 0;
     gameLoop(glib);
@@ -126,63 +129,71 @@ void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map
         this->pdir = 3;
 }
 
+std::vector<std::string> add_snake(std::vector<std::string> map)
+{
+    return (map);
+}
+
 std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vector<std::string> map)
 {
     std::vector<std::string> map_temp = map;
     int w = 0;
 
-    printf("%d\n", this->pdir);
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "🐍", "P ");
         map_temp[i] = str_replace_str(map_temp[i], "🍎", "* ");
+        map_temp[i] = str_replace_str(map_temp[i], "█", "W");
     }
-    if(this->pdir == 3 and map_temp[this->ppos.second][this->ppos.first - 2] == '*') {  
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second][this->ppos.first - 2] = 'P';
-        this->ppos.first = this->ppos.first - 2;
-        map_temp[this->ppos.second][this->ppos.first - 2] == ' ';
+    if(this->pdir == 3 and map_temp[this->npos[0].second][this->npos[0].first - 2] == '*') {  
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second][this->npos[0].first - 2] = 'P';
+        this->npos[0].first = this->npos[0].first - 2;
+        map_temp[this->npos[0].second][this->npos[0].first - 2] == ' ';
         this->score = this->score + 1;
-    } else if(this->pdir == 3 and map_temp[this->ppos.second][this->ppos.first - 2] == ' ') { 
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second][this->ppos.first - 2] = 'P';
-        this->ppos.first = this->ppos.first - 2;
+    } else if(this->pdir == 3 and map_temp[this->npos[0].second][this->npos[0].first - 2] == ' ') { 
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second][this->npos[0].first - 2] = 'P';
+        this->npos[0].first = this->npos[0].first - 2;
     }
-    if (this->pdir == 0 and map_temp[this->ppos.second - 1][this->ppos.first] == '*' and map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second - 1][this->ppos.first] = 'P'; 
-        map_temp[this->ppos.second - 1][this->ppos.first] == ' ';
-        this->ppos.second = this->ppos.second -1;
+    if (this->pdir == 0 and map_temp[this->npos[0].second - 1][this->npos[0].first] == '*' and map_temp[this->npos[0].second - 1][this->npos[0].first + 1] == ' ') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second - 1][this->npos[0].first] = 'P'; 
+        map_temp[this->npos[0].second - 1][this->npos[0].first] == ' ';
+        this->npos[0].second = this->npos[0].second -1;
         this->score = this->score + 1;
-    } else if(this->pdir == 0 and map_temp[this->ppos.second - 1][this->ppos.first] == ' ' and map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second - 1][this->ppos.first] = 'P'; 
-        this->ppos.second = this->ppos.second -1;
+    } else if(this->pdir == 0 and map_temp[this->npos[0].second - 1][this->npos[0].first] == ' ' and map_temp[this->npos[0].second - 1][this->npos[0].first + 1] == ' ') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second - 1][this->npos[0].first] = 'P'; 
+        this->npos[0].second = this->npos[0].second -1;
     }
-    if (this->pdir == 1 and map_temp[this->ppos.second][this->ppos.first + 2] == '*') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second][this->ppos.first + 2] = 'P';
-        this->ppos.first = this->ppos.first + 2;
-        map_temp[this->ppos.second][this->ppos.first + 2] == ' ';
+    if (this->pdir == 1 and map_temp[this->npos[0].second][this->npos[0].first + 2] == '*') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second][this->npos[0].first + 2] = 'P';
+        this->npos[0].first = this->npos[0].first + 2;
+        map_temp[this->npos[0].second][this->npos[0].first + 2] == ' ';
         this->score = this->score + 1;
-    } else if (this->pdir == 1 and map_temp[this->ppos.second][this->ppos.first + 2] == ' ') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second][this->ppos.first + 2] = 'P';
-        this->ppos.first = this->ppos.first + 2;
+        //map_temp = add_snake(map_temp);
+    } else if (this->pdir == 1 and map_temp[this->npos[0].second][this->npos[0].first + 2] == ' ') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second][this->npos[0].first + 2] = 'P';
+        this->npos[0].first = this->npos[0].first + 2;
     }
-    if (this->pdir == 2 and map_temp[this->ppos.second + 1][this->ppos.first] == '*' and map_temp[this->ppos.second + 1][this->ppos.first + 1] == ' ') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second + 1][this->ppos.first] = 'P';
-        this->ppos.second = this->ppos.second + 1;
-        map_temp[this->ppos.second + 1][this->ppos.first] == ' ';
+    if (this->pdir == 2 and map_temp[this->npos[0].second + 1][this->npos[0].first] == '*' and map_temp[this->npos[0].second + 1][this->npos[0].first + 1] == ' ') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second + 1][this->npos[0].first] = 'P';
+        this->npos[0].second = this->npos[0].second + 1;
+        map_temp[this->npos[0].second + 1][this->npos[0].first] == ' ';
         this->score = this->score + 1;
-    } else if(this->pdir == 2 and map_temp[this->ppos.second + 1][this->ppos.first] == ' ' and map_temp[this->ppos.second + 1][this->ppos.first + 1] == ' ') {
-        map_temp[this->ppos.second][this->ppos.first] = ' ';
-        map_temp[this->ppos.second + 1][this->ppos.first] = 'P';
-        this->ppos.second = this->ppos.second + 1;
+    } else if(this->pdir == 2 and map_temp[this->npos[0].second + 1][this->npos[0].first] == ' ' and map_temp[this->npos[0].second + 1][this->npos[0].first + 1] == ' ') {
+        map_temp[this->npos[0].second][this->npos[0].first] = ' ';
+        map_temp[this->npos[0].second + 1][this->npos[0].first] = 'P';
+        this->npos[0].second = this->npos[0].second + 1;
     }
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "P ", "🐍");
         map_temp[i] = str_replace_str(map_temp[i], "* ", "🍎");
+        map_temp[i] = str_replace_str(map_temp[i], "WW", "██");
+
     }
     return map_temp;
 }
@@ -193,14 +204,18 @@ int Game::gameLoop(IGraphicLib *glib)
     auto pmove = std::chrono::high_resolution_clock::now();
     auto refresh = std::chrono::high_resolution_clock::now();
     std::vector<std::string> map_menu = this->load_map("assets/nibbler/maps/map.txt");
+    std::string affich_score;
 
     while (1) {
         input = glib->keyPressed();
         if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
             glib->clearWindow();
             glib->printMap(map_menu);
+            glib->printSelectedButton(50, 0, affich_score);
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000) {
                 map_menu = move_nib(glib, input, map_menu);
+                auto s = std::to_string(this->score);
+                affich_score = "Score : " + s;
                 pmove = std::chrono::high_resolution_clock::now();
             }
             glib->refreshWindow();
