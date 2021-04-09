@@ -126,17 +126,15 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
     std::vector<std::string> map_temp = map;
     int w = 0;
 
-
-    // for (size_t i = 0; i != map_temp.size(); i++) {
-    //     map_temp[i] = str_replace_str(map_temp[i], "🐍", "P ");
-    //     map_temp[i] = str_replace_str(map_temp[i], "🍎", "* ");
-    // }
-    // for (size_t i = 0; i != map_temp.size(); i++) {
-    //     map_temp[i] = str_replace_str(map_temp[i], "P ", "🐍");
-    //     map_temp[i] = str_replace_str(map_temp[i], "F ", "🍎");
-    // }
+    for (size_t i = 0; i != map_temp.size(); i++) {
+        map_temp[i] = str_replace_str(map_temp[i], "🐍", "P ");
+        map_temp[i] = str_replace_str(map_temp[i], "🍎", "F ");
+    }
+    for (size_t i = 0; i != map_temp.size(); i++) {
+        map_temp[i] = str_replace_str(map_temp[i], "P ", "🐍");
+        map_temp[i] = str_replace_str(map_temp[i], "F ", "🍎");
+    }
     return map_temp;
-
 }
 
 int Game::gameLoop(IGraphicLib *glib)
