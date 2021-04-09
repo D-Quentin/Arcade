@@ -59,17 +59,17 @@ int Game::launchGame(IGraphicLib *glib)
 {
     glib->clearWindow();
     std::pair<int, int> value;
-    value.first = 21;
-    value.second = 10;
+    value.first = 20;
+    value.second = 9;
     this->fpos.push_back(value);
     value.first = 22;
-    value.second = 10;
+    value.second = 9;
     this->fpos.push_back(value);
-    value.first = 23;
-    value.second = 10;
+    value.first = 26;
+    value.second = 9;
     this->fpos.push_back(value);
-    value.first = 24;
-    value.second = 10;
+    value.first = 28;
+    value.second = 9;
     this->fpos.push_back(value);
     this->ppos.first = 24;
     this->ppos.second = 15;
@@ -77,8 +77,13 @@ int Game::launchGame(IGraphicLib *glib)
     this->fdir.push_back(0);
     this->fdir.push_back(0);
     this->fdir.push_back(0);
+    behind_ghost.push_back(' ');
+    behind_ghost.push_back(' ');
+    behind_ghost.push_back(' ');
+    behind_ghost.push_back(' ');
     this->pdir = 0;
     this->score = 0;
+    this->ghost = 0;
     gameLoop(glib);
 }
 
@@ -217,7 +222,140 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[i] = str_replace_str(map_temp[i], "* ", "🍑");
     }
     return map_temp;
-
+}
+std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::string> map)
+{
+    std::vector<std::string> map_temp = map;
+    for (size_t i = 0; i != map_temp.size(); i++) {
+        map_temp[i] = str_replace_str(map_temp[i], "🌕", "P ");
+        map_temp[i] = str_replace_str(map_temp[i], "👻", "0 ");
+        map_temp[i] = str_replace_str(map_temp[i], "👽", "1 ");
+        map_temp[i] = str_replace_str(map_temp[i], "🧟", "2 ");
+        map_temp[i] = str_replace_str(map_temp[i], "👹", "3 ");
+        map_temp[i] = str_replace_str(map_temp[i], "█", "W");
+        map_temp[i] = str_replace_str(map_temp[i], "🍑", "* ");
+    }
+    int v1 = 0;
+    int a = 0;
+    int w, x, y, z = 0;
+    srand((unsigned int) time(0));
+    while (a != 1) {
+        v1 = rand() % 4;
+        if (v1 == 0) {
+            w = 1;
+            if (map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == '*' and this->fdir[this->ghost] != 2) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] = this->ghost + 48;
+                this->fdir[this->ghost] = 0;
+                this->behind_ghost[this->ghost] = '*';
+                this->fpos[this->ghost].second = this->fpos[this->ghost].second - 1;
+                a = 1;
+            } else if (map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == ' ' and this->fdir[this->ghost] != 2) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] = this->ghost + 48;
+                this->fdir[this->ghost] = 0;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fpos[this->ghost].second = this->fpos[this->ghost].second - 1;
+                a = 1;
+            } else if (x == 1 and y == 1 and z == 1) {
+                this->fdir[this->ghost] = 0;
+                a = 1;
+            }
+        }
+        if (v1 == 1) {
+            x = 1;
+            if (this->fdir[this->ghost] == 1 and this->fpos[this->ghost].first >= 48) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][0] = this->ghost + 48;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fpos[this->ghost].first = 0;
+                this->fdir[this->ghost] = 3;
+            } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == '*' and this->fdir[this->ghost] != 3) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] = this->ghost + 48;
+                this->fdir[this->ghost] = 1;
+                this->behind_ghost[this->ghost] = '*';
+                this->fpos[this->ghost].first = this->fpos[this->ghost].first + 2;
+                a = 1;
+            } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == ' ' and this->fdir[this->ghost] != 3) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] = this->ghost + 48;
+                this->fdir[this->ghost] = 1;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fpos[this->ghost].first = this->fpos[this->ghost].first + 2;
+                a = 1;
+            } else if (w == 1 and y == 1 and z == 1) {
+                if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == '*' or map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == ' ')
+                    this->fdir[this->ghost] = 1;
+                a = 1;
+            }
+        }
+        if (v1 == 2) {
+            y = 1;
+            if (map_temp[this->fpos[this->ghost].second + 1][this->fpos[this->ghost].first] == '*' and this->fdir[this->ghost] != 0) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second + 1][this->fpos[this->ghost].first] = this->ghost + 48;
+                this->fdir[this->ghost] = 2;
+                this->behind_ghost[this->ghost] = '*';
+                this->fpos[this->ghost].second = this->fpos[this->ghost].second + 1;
+                a = 1;
+            } else if (map_temp[this->fpos[this->ghost].second + 1][this->fpos[this->ghost].first] == ' ' and this->fdir[this->ghost] != 0) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second + 1][this->fpos[this->ghost].first] = this->ghost + 48;
+                this->fdir[this->ghost] = 2;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fpos[this->ghost].second = this->fpos[this->ghost].second + 1;
+                a = 1;
+            } else if (w == 1 and x == 1 and z == 1) {
+                if (map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == '*' or map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == ' ')
+                this->fdir[this->ghost] = 2;
+                a = 1;
+            }
+        }
+        if (v1 == 3) {
+            z = 1;
+            if (this->fdir[this->ghost] == 3 and this->fpos[this->ghost].first == 0) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][48] = this->ghost + 48;
+                this->fpos[this->ghost].first = 48;
+                this->fdir[this->ghost] = 1;
+            } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == '*' and this->fdir[this->ghost] != 1) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] = this->ghost + 48;
+                this->fdir[this->ghost] = 3;
+                this->behind_ghost[this->ghost] = '*';
+                this->fpos[this->ghost].first = this->fpos[this->ghost].first - 2;
+                a = 1;
+            } else if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == ' ' and this->fdir[this->ghost] != 1) {
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first] = this->behind_ghost[this->ghost];
+                map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] = this->ghost + 48;
+                this->fdir[this->ghost] = 3;
+                this->behind_ghost[this->ghost] = ' ';
+                this->fpos[this->ghost].first = this->fpos[this->ghost].first - 2;
+                a = 1;
+            } else if (w == 1 and x == 1 and y == 1) {
+                if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == '*' or map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == ' ')  
+                this->fdir[this->ghost] = 3;
+                a = 1;
+            }
+        }
+        if (w == 1 and x == 1 and y == 1 and z == 1)
+            a = 1;
+    }
+    if (this->ghost == 3)
+        this->ghost = 0;
+    else
+        this->ghost = this->ghost + 1;
+    for (size_t i = 0; i != map_temp.size(); i++) {
+        map_temp[i] = str_replace_str(map_temp[i], "P ", "🌕");
+        map_temp[i] = str_replace_str(map_temp[i], "0 ", "👻");
+        map_temp[i] = str_replace_str(map_temp[i], "1 ", "👽");
+        map_temp[i] = str_replace_str(map_temp[i], "2 ", "🧟");
+        map_temp[i] = str_replace_str(map_temp[i], "3 ", "👹");
+        map_temp[i] = str_replace_str(map_temp[i], "WW", "██");
+        map_temp[i] = str_replace_str(map_temp[i], "* ", "🍑");
+    }
+    return map_temp;
 }
 
 int Game::gameLoop(IGraphicLib *glib)
@@ -237,6 +375,9 @@ int Game::gameLoop(IGraphicLib *glib)
             glib->printSelectedButton(50, 0, affich_score);
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000) {
                 map_menu = move_pac(glib, input, map_menu);
+                if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 1500000) {
+                map_menu = move_ghost(glib, map_menu);
+                }
                 pmove = std::chrono::high_resolution_clock::now();
             }
             glib->refreshWindow();
