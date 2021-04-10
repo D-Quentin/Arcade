@@ -122,7 +122,37 @@ void Arcade::launch_menu(IGraphicLib *glib)
 
 void Arcade::gest_leaderboard(std::string path, std::string name, int score)
 {
+    std::multimap<int, std::string> board;
+    std::ifstream file(path + "/leaderboard");
+    std::string line = "";
+    char c;
+    int i = 0;
 
+    board.insert({score * -1, name});
+    name = "";
+    if (file) {
+        while (file.get(c)) {
+            if (c == '|') {
+                name = line;
+                line = "";
+                continue;
+            }
+            if (c == '\n') {
+                board.insert({std::stoi(line) * -1, name});
+                line = "";
+                continue;
+            }
+            line += c;
+        }
+    }
+    std::ofstream flux(path + "/leaderboard");
+
+    if (flux) {
+        for (auto m = board.begin() ; m != board.end() && i != 3 ; m++) {
+            flux << m->second << "|" << m->first * -1 << std::endl;
+            i++;
+        }
+    }
 }
 
 void Arcade::launch_game(IGraphicLib *glib, int input)
@@ -133,18 +163,19 @@ void Arcade::launch_game(IGraphicLib *glib, int input)
     int score = 0;
     for (size_t i = 0 ; i != this->bouton[1].size() ; i++) {
         if (this->bouton[1][i].first == 1) {
-            glib->clearWindow();
             game = this->open_lib_game(this->games[i].c_str());
             glib->assetLoader("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11));
             score = game->launchGame(glib);
             dlclose(this->game_handle);
             delete (game);
-            this->gest_leaderboard("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11), this->player_name, score);
-            glib->clearWindow();
+            if (score == -2 || this->player_name == "")
+                return;
             if (score == -1) {
                 glib->exit_lib();
                 this->my_exit = true;
+                return;
             }
+            this->gest_leaderboard("assets/" + this->games[i].substr(11, this->games[i].find(".so") - 11), this->player_name, score);
             return;
         }
     }
