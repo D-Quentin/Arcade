@@ -11,6 +11,7 @@ int main(int ac, char **av)
 {
     IGraphicLib *lib = NULL;
     Arcade arcade;
+    srand((unsigned int) time(0));
     if (ac != 2)
         return (84);
     lib = arcade.open_lib(av[1]);

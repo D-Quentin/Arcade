@@ -18,6 +18,7 @@
 #include <fstream>
 #include <chrono>
 #include <cstdlib>
+#include <unistd.h>
 
 class Game : public IGame
 {
@@ -32,14 +33,21 @@ public:
     void gest_input(IGraphicLib *glib, int input, std::vector<std::string> map);
     std::vector<std::string> move_pac(IGraphicLib *glib, int input, std::vector<std::string> map);
     std::vector<std::string> move_ghost(IGraphicLib *glib, std::vector<std::string> map);
+    std::vector<std::string> make_win(IGraphicLib *glib);
+    int game_over(IGraphicLib *glib);
 private:
     std::vector<std::pair<int, int>> fpos;
     std::vector<char> behind_ghost;
     std::pair<int, int> ppos;
     std::vector<int> fdir;
+    std::vector<int> fdead;
+    std::chrono::_V2::system_clock::time_point time_boost;
+    bool boost;
     int pdir;
     int score;
     int ghost;
+    bool my_exit;
+    float speed;
 };
 
 #endif /* !PACMAN_HPP_ */
