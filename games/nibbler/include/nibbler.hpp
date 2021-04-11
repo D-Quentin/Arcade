@@ -11,6 +11,7 @@
 #include <iostream>
 #include "IGame.hpp"
 #include "IGraphicLib.hpp"
+#include <unistd.h>
 
 class Game : public IGame
 {
@@ -24,11 +25,13 @@ public:
     void gest_exit(IGraphicLib *glib, int input);
     void gest_input(IGraphicLib *glib, int input, std::vector<std::string> map);
     std::vector<std::string> move_nib(IGraphicLib *glib, int input, std::vector<std::string> map);
-    std::vector<std::string> add_snake(std::vector<std::string> map);
+    std::vector<std::string> add_snake(std::vector<std::string> map, std::pair<int, int> prev, int a, IGraphicLib *glib);
+    int game_over(IGraphicLib *glib);
 private:
     std::vector<std::pair<int, int>> npos;
     int pdir;
     int score;
+    int nb_snake;
 };
 
 #endif /* !NIBBLER_HPP_ */
