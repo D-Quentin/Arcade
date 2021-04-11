@@ -545,7 +545,6 @@ std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::st
             return map_temp;
                 }
             } else if (w == 1 && x == 1 && y == 1) {
-                //if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == '*' or map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first + 2] == ' ')  
                 this->fdir[this->ghost] = 3;
                 a = 1;
             }
@@ -630,9 +629,8 @@ int Game::gameLoop(IGraphicLib *glib)
                 map_menu = move_ghost(glib, map_menu);
                 fmove = std::chrono::high_resolution_clock::now();
             }
-            if (this->boost == true && std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - this->time_boost).count() > 1000000000000) {
+            if (this->boost == true && std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - this->time_boost).count() > 10000000000) {
                 this->boost = false;
-                //map_menu[this->ppos.second] = str_replace_str(map_menu[this->ppos.second], "😡", "😧");
             }
             if (this->score %228 == 0 and this->score != 0)
                 map_menu = make_win(glib);
