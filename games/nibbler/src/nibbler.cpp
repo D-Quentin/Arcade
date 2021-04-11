@@ -147,7 +147,7 @@ int Game::game_over(IGraphicLib *glib)
     glib->printSelectedButton(20, 15, "Game Over");
     glib->printSelectedButton(17, 20, "Your score : " + std::to_string(this->score));
     glib->refreshWindow();
-    sleep(5);
+    sleep(3);
     return (this->score);
 }
 
