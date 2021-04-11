@@ -403,8 +403,7 @@ std::vector<std::string> Game::move_ghost(std::vector<std::string> map)
             return map_temp;
                 }
             } else if (x == 1 && y == 1 && z == 1) {
-                //if (map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == '*' or map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == ' ')
-                    this->fdir[this->ghost] = 0;
+                this->fdir[this->ghost] = 0;
                 a = 1;
             }
         }
@@ -452,8 +451,7 @@ std::vector<std::string> Game::move_ghost(std::vector<std::string> map)
             return map_temp;
                 }
             } else if (w == 1 && y == 1 && z == 1) {
-                //if (map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == '*' or map_temp[this->fpos[this->ghost].second][this->fpos[this->ghost].first -2] == ' ')
-                    this->fdir[this->ghost] = 1;
+                this->fdir[this->ghost] = 1;
                 a = 1;
             }
         }
@@ -492,7 +490,6 @@ std::vector<std::string> Game::move_ghost(std::vector<std::string> map)
             return map_temp;
                 }
             } else if (w == 1 && x == 1 && z == 1) {
-                //if (map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == '*' or map_temp[this->fpos[this->ghost].second - 1][this->fpos[this->ghost].first] == ' ')
                 this->fdir[this->ghost] = 2;
                 a = 1;
             }
