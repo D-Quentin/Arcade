@@ -107,7 +107,7 @@ int sdl2Lib::keyPressed()
     return (-1);
 }
 
-std::string str_replace_str(std::string str, std::string str2, std::string str3)
+std::string sdl2Lib::str_replace_str(std::string str, std::string str2, std::string str3)
 {
     size_t a = 0;
     size_t b = 0;
@@ -184,7 +184,7 @@ void sdl2Lib::printMap(std::vector<std::string> vs)
         y = y + this->block_size;
     }
 }
-std::string begin_str(std::string str, char a)
+std::string sdl2Lib::begin_str(std::string str, char a)
 {
     size_t b = 0;
     std::string str2;
@@ -202,7 +202,7 @@ std::string begin_str(std::string str, char a)
     return str2;
 }
 
-int str_in_str(std::string str, std::string str2)
+int sdl2Lib::str_in_str(std::string str, std::string str2)
 {
     size_t a = 0;
     size_t b = 0;
@@ -229,7 +229,7 @@ int str_in_str(std::string str, std::string str2)
     return result;
 }
 
-size_t strlen_emoji(const std::string& str)
+size_t sdl2Lib::strlen_emoji(const std::string& str)
 {
     size_t length = 0;
     size_t emoji = 0;
@@ -328,20 +328,6 @@ void sdl2Lib::clearWindow()
 void sdl2Lib::refreshWindow()
 {
     SDL_RenderPresent(renderer);
-}
-void sdl2Lib::printWindow()
-{
-
-}
-void sdl2Lib::printTitle(std::string)
-{
-
-}
-
-std::pair<int, int> sdl2Lib::getWindowSize() const
-{
-    std::pair<int, int> test;
-    return test;
 }
 
 void sdl2Lib::assetLoader(const std::string str)

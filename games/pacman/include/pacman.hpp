@@ -30,11 +30,12 @@ public:
     virtual int gameLoop(IGraphicLib *glib);
     std::vector<std::string> load_map(std::string path);
     void gest_exit(IGraphicLib *glib, int input);
-    void gest_input(IGraphicLib *glib, int input, std::vector<std::string> map);
-    std::vector<std::string> move_pac(IGraphicLib *glib, int input, std::vector<std::string> map);
-    std::vector<std::string> move_ghost(IGraphicLib *glib, std::vector<std::string> map);
-    std::vector<std::string> make_win(IGraphicLib *glib);
+    void gest_input(int input);
+    std::vector<std::string> move_pac(std::vector<std::string> map);
+    std::vector<std::string> move_ghost(std::vector<std::string> map);
+    std::vector<std::string> make_win();
     int game_over(IGraphicLib *glib);
+    std::string str_replace_str(std::string str, std::string str2, std::string str3);
 private:
     std::vector<std::pair<int, int>> fpos;
     std::vector<char> behind_ghost;

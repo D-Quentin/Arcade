@@ -104,7 +104,7 @@ int SfmlLib::keyPressed()
     return -1;
 }
 
-int str_in_str(std::string str, std::string str2)
+int SfmlLib::str_in_str(std::string str, std::string str2)
 {
     size_t a = 0;
     size_t b = 0;
@@ -131,7 +131,7 @@ int str_in_str(std::string str, std::string str2)
     return result;
 }
 
-std::string str_replace_str(std::string str, std::string str2, std::string str3)
+std::string SfmlLib::str_replace_str(std::string str, std::string str2, std::string str3)
 {
     size_t a = 0;
     size_t b = 0;
@@ -212,7 +212,7 @@ void SfmlLib::printMap(std::vector<std::string> vs)
     }
 }
 
-size_t strlen_emoji(const std::string& str)
+size_t SfmlLib::strlen_emoji(const std::string& str)
 {
     size_t length = 0;
     size_t emoji = 0;
@@ -315,21 +315,7 @@ void SfmlLib::refreshWindow()
 {
     this->_window.display();
 }
-void SfmlLib::printWindow()
-{
-    this->_window.display();
-}
 
-void SfmlLib::printTitle(std::string text)
-{
-    (void)text;
-}
-
-std::pair<int, int> SfmlLib::getWindowSize() const
-{
-    std::pair<int, int> test;
-    return test;
-}
 std::string begin_str(std::string str, char a)
 {
     size_t b = 0;

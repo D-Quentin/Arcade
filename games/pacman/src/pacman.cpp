@@ -99,7 +99,7 @@ void Game::gest_exit(IGraphicLib *glib, int input)
 {
     if (input == 'q') {
         glib->exit_lib();
-        exit(0);
+        std::exit(0);
     }
 }
 
@@ -113,7 +113,7 @@ int Game::game_over(IGraphicLib *glib)
     return (this->score);
 }
 
-std::string str_replace_str(std::string str, std::string str2, std::string str3)
+std::string Game::str_replace_str(std::string str, std::string str2, std::string str3)
 {
     size_t a = 0;
     size_t b = 0;
@@ -148,7 +148,7 @@ std::string str_replace_str(std::string str, std::string str2, std::string str3)
     return str4;
 }
 
-void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map)
+void Game::gest_input(int input)
 {
     if (input == 259) 
         this->pdir = 0;
@@ -160,10 +160,10 @@ void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map
         this->pdir = 3;
 }
 
-std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vector<std::string> map)
+std::vector<std::string> Game::move_pac(std::vector<std::string> map)
 {
     std::vector<std::string> map_temp = map;
-    int w = 0;
+
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "😡", "P ");
         map_temp[i] = str_replace_str(map_temp[i], "😧", "P ");
@@ -172,7 +172,7 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[i] = str_replace_str(map_temp[i], "🧟", "2 ");
         map_temp[i] = str_replace_str(map_temp[i], "👹", "3 ");
         map_temp[i] = str_replace_str(map_temp[i], "█", "W");
-        map_temp[i] = str_replace_str(map_temp[i], "🍑", "* ");
+        map_temp[i] = str_replace_str(map_temp[i], "⬛", "* ");
         map_temp[i] = str_replace_str(map_temp[i], "🌟", "b ");
     }
     if (this->pdir == 3 && this->ppos.first == 0) {
@@ -183,7 +183,6 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[this->ppos.second][this->ppos.first] = ' ';
         map_temp[this->ppos.second][this->ppos.first - 2] = 'P';
         this->ppos.first = this->ppos.first - 2;
-        map_temp[this->ppos.second][this->ppos.first - 2] == ' ';
         this->score = this->score + 1;
     } else if(this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == ' ') {
         map_temp[this->ppos.second][this->ppos.first] = ' ';
@@ -195,7 +194,7 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         this->ppos.first = this->ppos.first - 2;
         this->boost = true;
         this->time_boost = std::chrono::high_resolution_clock::now();
-    } else if(this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '0' || this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '1' || this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '2' || this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '3') {
+    } else if((this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '0') || (this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '1') || (this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '2') || (this->pdir == 3 && map_temp[this->ppos.second][this->ppos.first - 2] == '3')) {
         if (this->boost == true) {
             if (this->behind_ghost[map_temp[this->ppos.second][this->ppos.first - 2] - 48] == '*')
                 this->score = this->score + 1;
@@ -213,7 +212,6 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
     if (this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '*' && map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
         map_temp[this->ppos.second][this->ppos.first] = ' ';
         map_temp[this->ppos.second - 1][this->ppos.first] = 'P';
-        map_temp[this->ppos.second - 1][this->ppos.first] == ' ';
         this->ppos.second = this->ppos.second -1;
         this->score = this->score + 1;
     } else if(this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == ' ' && map_temp[this->ppos.second - 1][this->ppos.first + 1] == ' ') {
@@ -226,7 +224,7 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         this->ppos.second = this->ppos.second -1;
         this->boost = true;
         this->time_boost = std::chrono::high_resolution_clock::now();
-    } else if (this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '0' || this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '1' || this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '2' || this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '3') {
+    } else if ((this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '0') || (this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '1') || (this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '2') || (this->pdir == 0 && map_temp[this->ppos.second - 1][this->ppos.first] == '3')) {
         if (this->boost == true) {
             if (this->behind_ghost[map_temp[this->ppos.second - 1][this->ppos.first] - 48] == '*')
                 this->score = this->score + 1;
@@ -249,7 +247,6 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[this->ppos.second][this->ppos.first] = ' ';
         map_temp[this->ppos.second][this->ppos.first + 2] = 'P';
         this->ppos.first = this->ppos.first + 2;
-        map_temp[this->ppos.second][this->ppos.first + 2] == ' ';
         this->score = this->score + 1;
     } else if (this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == ' ') {
         map_temp[this->ppos.second][this->ppos.first] = ' ';
@@ -261,7 +258,7 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         this->ppos.first = this->ppos.first + 2;
         this->boost = true;
         this->time_boost = std::chrono::high_resolution_clock::now();
-    } else if(this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '0' || this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '1' || this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '2' || this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '3') {
+    } else if((this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '0') || (this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '1') || (this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '2') || (this->pdir == 1 && map_temp[this->ppos.second][this->ppos.first + 2] == '3')) {
         if (this->boost == true) {
             if (this->behind_ghost[map_temp[this->ppos.second][this->ppos.first + 2] - 48] == '*')
                 this->score = this->score + 1;
@@ -279,7 +276,6 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[this->ppos.second][this->ppos.first] = ' ';
         map_temp[this->ppos.second + 1][this->ppos.first] = 'P';
         this->ppos.second = this->ppos.second + 1;
-        map_temp[this->ppos.second + 1][this->ppos.first] == ' ';
         this->score = this->score + 1;
     } else if(this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == ' ' && map_temp[this->ppos.second + 1][this->ppos.first + 1] == ' ') {
         map_temp[this->ppos.second][this->ppos.first] = ' ';
@@ -291,7 +287,7 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         this->ppos.second = this->ppos.second + 1;
         this->boost = true;
         this->time_boost = std::chrono::high_resolution_clock::now();
-    } else if(this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '0' || this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '1' || this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '2' || this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '3') {
+    } else if((this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '0') || (this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '1') || (this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '2') || (this->pdir == 2 && map_temp[this->ppos.second + 1][this->ppos.first] == '3')) {
         if (this->boost == true) {
             if (this->behind_ghost[map_temp[this->ppos.second + 1][this->ppos.first] - 48] == '*')
                 this->score = this->score + 1;
@@ -316,12 +312,12 @@ std::vector<std::string> Game::move_pac(IGraphicLib *glib, int input, std::vecto
         map_temp[i] = str_replace_str(map_temp[i], "2 ", "🧟");
         map_temp[i] = str_replace_str(map_temp[i], "3 ", "👹");
         map_temp[i] = str_replace_str(map_temp[i], "WW", "██");
-        map_temp[i] = str_replace_str(map_temp[i], "* ", "🍑");
+        map_temp[i] = str_replace_str(map_temp[i], "* ", "⬛");
         map_temp[i] = str_replace_str(map_temp[i], "b ", "🌟");
     }
     return map_temp;
 }
-std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::string> map)
+std::vector<std::string> Game::move_ghost(std::vector<std::string> map)
 {
     std::vector<std::string> map_temp = map;
     for (size_t i = 0; i != map_temp.size(); i++) {
@@ -332,7 +328,7 @@ std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::st
         map_temp[i] = str_replace_str(map_temp[i], "🧟", "2 ");
         map_temp[i] = str_replace_str(map_temp[i], "👹", "3 ");
         map_temp[i] = str_replace_str(map_temp[i], "█", "W");
-        map_temp[i] = str_replace_str(map_temp[i], "🍑", "* ");
+        map_temp[i] = str_replace_str(map_temp[i], "⬛", "* ");
         map_temp[i] = str_replace_str(map_temp[i], "🌟", "b ");
     }
     int v1 = 0;
@@ -567,14 +563,13 @@ std::vector<std::string> Game::move_ghost(IGraphicLib *glib, std::vector<std::st
         map_temp[i] = str_replace_str(map_temp[i], "2 ", "🧟");
         map_temp[i] = str_replace_str(map_temp[i], "3 ", "👹");
         map_temp[i] = str_replace_str(map_temp[i], "WW", "██");
-        map_temp[i] = str_replace_str(map_temp[i], "* ", "🍑");
+        map_temp[i] = str_replace_str(map_temp[i], "* ", "⬛");
         map_temp[i] = str_replace_str(map_temp[i], "b ", "🌟");
-        
     }
     return map_temp;
 }
 
-std::vector<std::string> Game::make_win(IGraphicLib *glib)
+std::vector<std::string> Game::make_win()
 {
     this->fpos[0].first = 20;
     this->fpos[0].second = 9;
@@ -623,18 +618,18 @@ int Game::gameLoop(IGraphicLib *glib)
             affich_score = "Score : " + s;
             glib->printSelectedButton(50, 0, affich_score);
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000 / this->speed) {
-                map_menu = move_pac(glib, input, map_menu);
+                map_menu = move_pac(map_menu);
                 pmove = std::chrono::high_resolution_clock::now();
             }
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - fmove).count() > 37500000 / this->speed) {
-                map_menu = move_ghost(glib, map_menu);
+                map_menu = move_ghost(map_menu);
                 fmove = std::chrono::high_resolution_clock::now();
             }
             if (this->boost == true && std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - this->time_boost).count() > 10000000000) {
                 this->boost = false;
             }
             if (this->score %228 == 0 and this->score != 0)
-                map_menu = make_win(glib);
+                map_menu = make_win();
             glib->refreshWindow();
             refresh = std::chrono::high_resolution_clock::now();
         }
@@ -643,6 +638,6 @@ int Game::gameLoop(IGraphicLib *glib)
         if (input == 'm')
             return (-2);
         this->gest_exit(glib, input);
-        this->gest_input(glib, input, map_menu);
+        this->gest_input(input);
     }
 }
