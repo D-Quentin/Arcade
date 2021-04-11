@@ -7,8 +7,10 @@
 
 #include "arcade.hpp"
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
+    if (env == NULL)
+        return (84);
     IGraphicLib *lib = NULL;
     Arcade arcade;
     srand((unsigned int) time(0));
@@ -20,6 +22,5 @@ int main(int ac, char **av)
     lib->assetLoader("assets/arcade");
     lib->init_lib();
     arcade.launch_menu(lib);
-    std::cout << "LOL";
     return (0);
 }

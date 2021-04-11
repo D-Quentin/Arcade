@@ -106,9 +106,10 @@ void Game::gest_exit(IGraphicLib *glib, int input)
 int Game::game_over(IGraphicLib *glib)
 {
     glib->clearWindow();
-    glib->printSelectedButton(10, 10, "Game Over");
+    glib->printSelectedButton(20, 15, "Game Over");
+    glib->printSelectedButton(17, 20, "Your score : " + std::to_string(this->score));
     glib->refreshWindow();
-    sleep(2);
+    sleep(5);
     return (this->score);
 }
 
@@ -639,6 +640,8 @@ int Game::gameLoop(IGraphicLib *glib)
         }
         if (my_exit == true)
             return (this->game_over(glib));
+        if (input == 'm')
+            return (-2);
         this->gest_exit(glib, input);
         this->gest_input(glib, input, map_menu);
     }
