@@ -56,7 +56,7 @@ int Game::launchGame(IGraphicLib *glib)
     this->nb_snake = 4;
     this->speed = 1;
     this->level = 1;
-    gameLoop(glib);
+    return (gameLoop(glib));
 }
 
 std::vector<std::string> Game::load_map(std::string path)
@@ -129,7 +129,7 @@ std::string str_replace_str(std::string str, std::string str2, std::string str3)
     return str4;
 }
 
-void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map)
+void Game::gest_input(int input)
 {
     if (input == 259) 
         this->pdir = 0;
@@ -144,15 +144,15 @@ void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map
 int Game::game_over(IGraphicLib *glib)
 {
     glib->clearWindow();
-    glib->printSelectedButton(10, 10, "Game Over");
+    glib->printSelectedButton(20, 15, "Game Over");
+    glib->printSelectedButton(17, 20, "Your score : " + std::to_string(this->score));
     glib->refreshWindow();
-    sleep(2);
+    sleep(5);
     return (this->score);
 }
 
-std::vector<std::string> Game::add_snake(std::vector<std::string> map, std::pair<int, int> prev, int b, IGraphicLib *glib)
+std::vector<std::string> Game::add_snake(std::vector<std::string> map, std::pair<int, int> prev, int b)
 {
-    int a = -1;
     std::pair<int, int> stock;
 
     if (map[this->npos[0].second][this->npos[0].first+2] != ' ' and map[this->npos[0].second-1][this->npos[0].first] != ' ' and map[this->npos[0].second+1][this->npos[0].first] != ' ' and map[this->npos[0].second][this->npos[0].first-2] != ' ') {
@@ -180,10 +180,9 @@ std::vector<std::string> Game::add_snake(std::vector<std::string> map, std::pair
     return (map);
 }
 
-std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vector<std::string> map)
+std::vector<std::string> Game::move_nib(std::vector<std::string> map)
 {
     std::vector<std::string> map_temp = map;
-    int w = 0;
     std::pair<int, int> prev = {this->npos[0]};
 
     for (size_t i = 0; i != map_temp.size(); i++) {
@@ -195,9 +194,8 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second][this->npos[0].first - 2] = 'P';
         this->npos[0].first = this->npos[0].first - 2;
-        map_temp[this->npos[0].second][this->npos[0].first - 2] == ' ';
         this->score = this->score + 1;
-        map_temp = add_snake(map_temp, prev, 1, glib);
+        map_temp = add_snake(map_temp, prev, 1);
     } else if(this->pdir == 3 and map_temp[this->npos[0].second][this->npos[0].first - 2] == ' ') { 
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second][this->npos[0].first - 2] = 'P';
@@ -206,10 +204,9 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
     if (this->pdir == 0 and map_temp[this->npos[0].second - 1][this->npos[0].first] == '*' and map_temp[this->npos[0].second - 1][this->npos[0].first + 1] == ' ') {
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second - 1][this->npos[0].first] = 'P'; 
-        map_temp[this->npos[0].second - 1][this->npos[0].first] == ' ';
         this->npos[0].second = this->npos[0].second -1;
         this->score = this->score + 1;
-        map_temp = add_snake(map_temp, prev, 1, glib);
+        map_temp = add_snake(map_temp, prev, 1);
     } else if(this->pdir == 0 and map_temp[this->npos[0].second - 1][this->npos[0].first] == ' ' and map_temp[this->npos[0].second - 1][this->npos[0].first + 1] == ' ') {
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second - 1][this->npos[0].first] = 'P'; 
@@ -219,9 +216,8 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second][this->npos[0].first + 2] = 'P';
         this->npos[0].first = this->npos[0].first + 2;
-        map_temp[this->npos[0].second][this->npos[0].first + 2] == ' ';
         this->score = this->score + 1;
-        map_temp = add_snake(map_temp, prev, 1, glib);
+        map_temp = add_snake(map_temp, prev, 1);
     } else if (this->pdir == 1 and map_temp[this->npos[0].second][this->npos[0].first + 2] == ' ') {
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second][this->npos[0].first + 2] = 'P';
@@ -231,15 +227,14 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second + 1][this->npos[0].first] = 'P';
         this->npos[0].second = this->npos[0].second + 1;
-        map_temp[this->npos[0].second + 1][this->npos[0].first] == ' ';
         this->score = this->score + 1;
-        map_temp = add_snake(map_temp, prev, 1, glib);
+        map_temp = add_snake(map_temp, prev, 1);
     } else if(this->pdir == 2 and map_temp[this->npos[0].second + 1][this->npos[0].first] == ' ' and map_temp[this->npos[0].second + 1][this->npos[0].first + 1] == ' ') {
         map_temp[this->npos[0].second][this->npos[0].first] = ' ';
         map_temp[this->npos[0].second + 1][this->npos[0].first] = 'P';
         this->npos[0].second = this->npos[0].second + 1;
     }
-    map_temp = add_snake(map_temp, prev, 0, glib);
+    map_temp = add_snake(map_temp, prev, 0);
     for (size_t i = 0; i != map_temp.size(); i++) {
         map_temp[i] = str_replace_str(map_temp[i], "P ", "🐍");
         map_temp[i] = str_replace_str(map_temp[i], "* ", "🍎");
@@ -290,7 +285,7 @@ int Game::gameLoop(IGraphicLib *glib)
             glib->printMap(map_menu);
             glib->printSelectedButton(50, 0, affich_score);
             if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > (150000000 / this->speed)) {
-                map_menu = move_nib(glib, input, map_menu);
+                map_menu = move_nib(map_menu);
                 if (map_menu[0][0] == 'O')
                     return (this->game_over(glib));
                 if (this->score == (31 * this->level))
@@ -303,7 +298,7 @@ int Game::gameLoop(IGraphicLib *glib)
             refresh = std::chrono::high_resolution_clock::now();
         }
         this->gest_exit(glib, input);
-        this->gest_input(glib, input, map_menu);
+        this->gest_input(input);
     }
     (void)glib;
 }
