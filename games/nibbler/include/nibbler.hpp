@@ -27,11 +27,14 @@ public:
     std::vector<std::string> move_nib(IGraphicLib *glib, int input, std::vector<std::string> map);
     std::vector<std::string> add_snake(std::vector<std::string> map, std::pair<int, int> prev, int a, IGraphicLib *glib);
     int game_over(IGraphicLib *glib);
+    std::vector<std::string> make_win(IGraphicLib *glib);
 private:
     std::vector<std::pair<int, int>> npos;
     int pdir;
     int score;
     int nb_snake;
+    int speed;
+    int level;
 };
 
 #endif /* !NIBBLER_HPP_ */

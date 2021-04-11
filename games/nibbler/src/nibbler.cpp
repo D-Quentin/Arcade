@@ -42,9 +42,20 @@ int Game::launchGame(IGraphicLib *glib)
     value.first = 22;
     value.second = 17;
     this->npos.push_back(value);
+    value.first = 20;
+    value.second = 17;
+    this->npos.push_back(value);
+    value.first = 18;
+    value.second = 17;
+    this->npos.push_back(value);
+    value.first = 16;
+    value.second = 17;
+    this->npos.push_back(value);
     this->pdir = 0;
     this->score = 0;
-    this->nb_snake = 1;
+    this->nb_snake = 4;
+    this->speed = 1;
+    this->level = 1;
     gameLoop(glib);
 }
 
@@ -79,7 +90,7 @@ void Game::gest_exit(IGraphicLib *glib, int input)
 {
     if (input == 'q') {
         glib->exit_lib();
-        exit(0);
+        std::exit(0);
     }
 }
 
@@ -130,14 +141,26 @@ void Game::gest_input(IGraphicLib *glib, int input, std::vector<std::string> map
         this->pdir = 3;
 }
 
+int Game::game_over(IGraphicLib *glib)
+{
+    glib->clearWindow();
+    glib->printSelectedButton(10, 10, "Game Over");
+    glib->refreshWindow();
+    sleep(2);
+    return (this->score);
+}
+
 std::vector<std::string> Game::add_snake(std::vector<std::string> map, std::pair<int, int> prev, int b, IGraphicLib *glib)
 {
     int a = -1;
     std::pair<int, int> stock;
 
-    // if (map[prev.second][prev.first+2] != ' ' and map[prev.second-1][prev.first] != ' ' and map[prev.second+1][prev.first] != ' ' and map[prev.second][prev.first-2] != ' ')
-    //         if (map[prev.second][prev.first+2] != '*' and map[prev.second-1][prev.first] != '*' and map[prev.second+1][prev.first] != '*' and map[prev.second][prev.first-2] != '*')
-    //             game_over(glib);
+    if (map[this->npos[0].second][this->npos[0].first+2] != ' ' and map[this->npos[0].second-1][this->npos[0].first] != ' ' and map[this->npos[0].second+1][this->npos[0].first] != ' ' and map[this->npos[0].second][this->npos[0].first-2] != ' ') {
+        if (map[this->npos[0].second][this->npos[0].first+2] != '*' and map[this->npos[0].second-1][this->npos[0].first] != '*' and map[this->npos[0].second+1][this->npos[0].first] != '*' and map[this->npos[0].second][this->npos[0].first-2] != '*') {
+            map[0][0] = 'O';
+            return (map);
+        }
+    }
     for (int a = 1; this->nb_snake != a; a++) {
         if (this->npos[0] != prev) {
             map[this->npos[a].second][this->npos[a].first] = ' ';
@@ -226,13 +249,30 @@ std::vector<std::string> Game::move_nib(IGraphicLib *glib, int input, std::vecto
     return map_temp;
 }
 
-int Game::game_over(IGraphicLib *glib)
+std::vector<std::string> Game::make_win(IGraphicLib *glib)
 {
+    std::pair<int, int> value;
+
+    this->npos.clear();
     glib->clearWindow();
-    glib->printSelectedButton(10, 10, "Game Over");
-    glib->refreshWindow();
-    sleep(2);
-    return (this->score);
+    value.first = 22;
+    value.second = 17;
+    this->npos.push_back(value);
+    value.first = 20;
+    value.second = 17;
+    this->npos.push_back(value);
+    value.first = 18;
+    value.second = 17;
+    this->npos.push_back(value);
+    value.first = 16;
+    value.second = 17;
+    this->npos.push_back(value);
+    this->pdir = 0;
+    this->nb_snake = 4;
+    this->speed += 2;
+    std::vector<std::string> map_menu = this->load_map("assets/nibbler/maps/map.txt");
+    this->level += 1;
+    return (map_menu);
 }
 
 int Game::gameLoop(IGraphicLib *glib)
@@ -245,12 +285,16 @@ int Game::gameLoop(IGraphicLib *glib)
 
     while (1) {
         input = glib->keyPressed();
-        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > 10000000) {
+        if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - refresh).count() > (10000000 / this->speed)) {
             glib->clearWindow();
             glib->printMap(map_menu);
             glib->printSelectedButton(50, 0, affich_score);
-            if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > 150000000) {
+            if (std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - pmove).count() > (150000000 / this->speed)) {
                 map_menu = move_nib(glib, input, map_menu);
+                if (map_menu[0][0] == 'O')
+                    return (this->game_over(glib));
+                if (this->score == (31 * this->level))
+                    map_menu = make_win(glib);
                 auto s = std::to_string(this->score);
                 affich_score = "Score : " + s;
                 pmove = std::chrono::high_resolution_clock::now();
